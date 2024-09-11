@@ -15,11 +15,11 @@ datasource db {
 
 model loginAttempt {
   id    Int    @id @default(autoincrement())
-  phone String
+  phone String @unique
   code  String
 }
 
 model user {
   id    Int    @id @default(autoincrement())
-  phone String
+  phone String @unique
 }
