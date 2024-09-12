@@ -21,5 +21,6 @@ model loginAttempt {
 
 model user {
   id    Int    @id @default(autoincrement())
-  phone String @unique
+  phone String @unique //should not be used for login, left behind relic
+  email String @unique @default("")
 }
