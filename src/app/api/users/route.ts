@@ -11,7 +11,10 @@ export async function GET(req: any) {
 export async function POST(req: NextRequest) {
   const { email }: { email: string } = await req.json();
 
-  const user = await db.user.findFirst({ where: { email } });
+  const user = await db.user.findFirst({
+    where: { email },
+    select: { email: true, id: true, phone: true },
+  });
   // const user = await db.user.create({ data: { email } });
 
   if (!user?.email) {

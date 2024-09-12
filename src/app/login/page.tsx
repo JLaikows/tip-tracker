@@ -1,9 +1,8 @@
 "use client";
 
+import { login } from "@/lib/state/userSlice";
 import axios from "axios";
-import Image from "next/image";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
 import { useState } from "react";
@@ -19,11 +18,12 @@ export default function Home() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    console.log({ email });
+
     const { data } = await axios.post("/api/users", { email });
     if (data.error) {
       toast.error(data.error);
     } else {
+      login(data.user);
       console.log(data);
     }
   }
@@ -32,14 +32,23 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Panel header="Login" className="b-2">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col gap-4 justify-items-center items-center"
+            onSubmit={handleSubmit}
+          >
             <InputText
               size="large"
               placeholder="Email"
               onChange={handleChange}
               value={email}
             />
-            <Button size="large" disabled={isSubmitting}>
+            <Button
+              className="p-button p-2"
+              size="large"
+              severity="info"
+              raised
+              disabled={isSubmitting}
+            >
               Submit
             </Button>
           </form>

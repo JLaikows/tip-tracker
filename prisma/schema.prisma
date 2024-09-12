@@ -20,7 +20,17 @@ model loginAttempt {
 }
 
 model user {
-  id    Int    @id @default(autoincrement())
-  phone String @default("") //should not be used for login
-  email String @unique @default("")
+  id       Int       @id @default(autoincrement())
+  phone    String    @default("")
+  email    String    @unique @default("")
+  sessions session[]
+}
+
+model session {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      user     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
