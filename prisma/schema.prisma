@@ -21,6 +21,6 @@ model loginAttempt {
 
 model user {
   id    Int    @id @default(autoincrement())
-  phone String @unique //should not be used for login
+  phone String @default("") //should not be used for login
   email String @unique @default("")
 }
