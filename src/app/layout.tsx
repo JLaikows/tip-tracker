@@ -37,7 +37,12 @@ const menuOptions = [
     url: "/login",
   },
   {
-    label: "Contact",
+    label: "Sign Up",
+    url: "/signup",
+  },
+  {
+    label: "Dashboard",
+    url: "/dashboard",
   },
 ];
 

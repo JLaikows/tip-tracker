@@ -5,5 +5,6 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Auth>{children}</Auth>;
+  //   return <Auth>{children}</Auth>;
+  return children;
 }
