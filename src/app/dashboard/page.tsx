@@ -1,14 +1,14 @@
 "use client";
 
-import { login } from "@/lib/state/userSlice";
+import { payout } from "@prisma/client";
 import axios from "axios";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
-import { InputNumber } from "primereact/inputnumber";
+import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
-import { useEffect, useState } from "react";
+import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const now = new Date(Date.now());
@@ -24,30 +24,32 @@ const defaultPayout = {
 
 export default function Home() {
   const [formData, setFormData] = useState(defaultPayout);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  //   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [payouts, setPayouts] = useState<[]>([]);
   const [selectedId, setSelectedId] = useState({ name: "1", code: 1 });
 
   //   const { data } = await axios.get("/api/users/2/payouts");
-  const handleChange = (name: string) => (e: any) => {
+  const handleChange = (name: string) => (e: InputNumberChangeEvent) => {
     console.log(e);
     // console.log(`${name}: ${e.value}`);
     setFormData({ ...formData, [name]: e.value });
   };
 
-  const getPayouts = async () => {
+  const getPayouts = useCallback(async () => {
     const { data } = await axios.get(`/api/users/${selectedId.code}/payouts`);
 
     setPayouts(data.payouts);
-  };
+  }, [selectedId]);
 
-  const handleOriginalChange = (e: any) => {
+  const handleOriginalChange = (e: {
+    target: { value: number | string; name: string };
+  }) => {
     console.log(e);
     console.log(`${e.target.name}: ${e.target.value}`);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  async function handleSubmit(e: any) {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const { data } = await axios.post("/api/payouts", { ...formData });
@@ -58,23 +60,18 @@ export default function Home() {
 
       console.log(data);
     }
-  }
+  };
 
   useEffect(() => {
     console.log(selectedId);
     getPayouts();
-  }, [selectedId]);
-  useEffect(() => {
-    console.log(formData);
-  });
+  }, [selectedId, getPayouts, selectedId.code, selectedId.name]);
 
   const options = [
     { name: "0", code: 0 },
     { name: "1", code: 1 },
     { name: "2", code: 2 },
   ];
-
-  const getInfo = async () => await axios.get("/api/users/2/payouts");
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -134,7 +131,7 @@ export default function Home() {
               size="large"
               severity="info"
               raised
-              disabled={isSubmitting}
+              //   disabled={isSubmitting}
             >
               Submit
             </Button>
@@ -148,7 +145,7 @@ export default function Home() {
             optionLabel="name"
           />
           {payouts.length > 0 &&
-            payouts.map((payout: any) => (
+            payouts.map((payout: payout) => (
               <div
                 className="flex flex-row gap-1"
                 key={`${payout.amount}-${payout.day}-${payout.client}`}

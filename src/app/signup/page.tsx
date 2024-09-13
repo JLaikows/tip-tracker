@@ -5,19 +5,20 @@ import axios from "axios";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
-import { useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Home() {
   const [email, setEmail] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  function handleChange(e: any) {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
-  async function handleSubmit(e: any) {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const { data } = await axios.post("/api/users/signup", { email });
     if (data.error) {
@@ -27,7 +28,9 @@ export default function Home() {
       toast.success("Successful Sign Up!");
       console.log(data);
     }
-  }
+
+    setIsSubmitting(false);
+  };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
