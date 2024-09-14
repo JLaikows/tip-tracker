@@ -1,10 +1,9 @@
 "use client";
 
 import PayoutCreateForm from "@/lib/components/PayoutCreateForm";
-import { payout } from "@prisma/client";
+import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
-import { Panel } from "primereact/panel";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
@@ -31,28 +30,13 @@ export default function Home() {
     <div className="flex items-center justify-items-center max-h-screen font-[family-name:var(--font-geist-sans)] p-4 ">
       <main className="flex flex-col gap-8 row-start-2 items-center min-h-80 sm:items-start md:flex-row">
         <PayoutCreateForm />
-        <Panel header="Payouts">
-          <Dropdown
-            value={selectedId.code}
-            options={options}
-            onChange={(e) => setSelectedId(e.target.value)}
-            optionLabel="name"
-          />
-          {payouts.length > 0 &&
-            payouts.map((payout: payout) => (
-              <div
-                className="flex flex-row gap-1"
-                key={`${payout.amount}-${payout.day}-${payout.client}`}
-              >
-                <div>{payout.amount}</div>
-                <div>{payout.year}</div>
-                <div>{payout.month}</div>
-                <div>{payout.day}</div>
-                <div>{payout.client}</div>
-                <div>{payout.state}</div>
-              </div>
-            ))}
-        </Panel>
+        <Dropdown
+          value={selectedId.code}
+          options={options}
+          onChange={(e) => setSelectedId(e.target.value)}
+          optionLabel="name"
+        />
+        <PayoutTable payouts={payouts} />
       </main>
     </div>
   );
