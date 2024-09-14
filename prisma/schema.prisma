@@ -39,6 +39,7 @@ model session {
 model payout {
   id      Int     @id @default(autoincrement())
   amount  Float
+  owed    Float   @default(0)
   taxable Boolean @default(false)
   client  String
   state   String
