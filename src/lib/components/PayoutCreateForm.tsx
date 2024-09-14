@@ -1,6 +1,5 @@
 "use client";
 
-import { payout } from "@prisma/client";
 import axios from "axios";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
@@ -9,7 +8,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
 
 const now = new Date(Date.now());

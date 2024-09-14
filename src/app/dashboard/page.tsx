@@ -7,18 +7,6 @@ import { Dropdown } from "primereact/dropdown";
 import { Panel } from "primereact/panel";
 import { useCallback, useEffect, useState } from "react";
 
-const now = new Date(Date.now());
-
-const defaultPayout = {
-  amount: 0,
-  taxable: false,
-  state: "NJ",
-  userId: 0,
-  date: now.toISOString().slice(0, 10),
-  client: "",
-  owed: 0,
-};
-
 export default function Home() {
   const [payouts, setPayouts] = useState<[]>([]);
   const [selectedId, setSelectedId] = useState({ name: "1", code: 1 });
