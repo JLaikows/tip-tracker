@@ -142,10 +142,10 @@ export default function PayoutCreateForm() {
           <FloatLabel>
             <label>Owed</label>
             <InputNumber
-              name="amount"
+              name="owed"
               size={9}
-              value={formData.amount}
-              onChange={handleChange("amount")}
+              value={formData.owed}
+              onChange={handleChange("owed")}
               minFractionDigits={0}
               maxFractionDigits={2}
               variant="filled"
@@ -169,7 +169,7 @@ export default function PayoutCreateForm() {
         </div>
         <FloatLabel>
           <InputNumber
-            value={formData.amount}
+            value={formData.userId}
             onChange={handleChange("userId")}
             maxFractionDigits={0}
             variant="filled"
