@@ -20,13 +20,17 @@ export default function Home() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const { data } = await axios.post("/api/users/signup", { email });
-    if (data.error) {
-      toast.error(data.error);
-    } else {
-      login(data.user);
-      toast.success("Successful Sign Up!");
-      console.log(data);
+    try {
+      const { data } = await axios.post("/api/users/signup", { email });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        login(data.user);
+        toast.success("Successful Sign Up!");
+        console.log(data);
+      }
+    } catch (e: unknown) {
+      toast.error(e as string);
     }
 
     setIsSubmitting(false);

@@ -20,14 +20,19 @@ export default function Home() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const { data } = await axios.post("/api/users", { email });
-    if (data.error) {
-      toast.error(data.error);
-    } else {
-      login(data.user);
+    try {
+      const { data } = await axios.post("/api/users", { email });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        login(data.user);
 
-      console.log(data);
+        console.log(data);
+      }
+    } catch (e: unknown) {
+      toast.error(e as string);
     }
+
     setIsSubmitting(false);
   };
 
