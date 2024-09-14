@@ -117,7 +117,7 @@ export default function PayoutCreateForm() {
   return (
     <Panel header="Add Payout" className="b-2 min-h-96">
       <form
-        className="flex flex-col gap-4 justify-items-left p-0 gap-8"
+        className="flex flex-col justify-items-left p-0 gap-8"
         onSubmit={handleSubmit}
       >
         <input
