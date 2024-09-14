@@ -16,8 +16,6 @@ export default function DashboardLayout({
   if (value?.id) {
     return <>{children}</>;
   } else {
-    router.push("/login");
+    return router.push("/login");
   }
-
-  console.log(store);
 }

@@ -26,8 +26,6 @@ export default function Home() {
         toast.error(data.error);
       } else {
         login(data.user);
-
-        console.log(data);
       }
     } catch (e: unknown) {
       toast.error(e as string);

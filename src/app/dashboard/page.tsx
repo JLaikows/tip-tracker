@@ -24,14 +24,11 @@ const defaultPayout = {
 
 export default function Home() {
   const [formData, setFormData] = useState(defaultPayout);
-  //   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [payouts, setPayouts] = useState<[]>([]);
   const [selectedId, setSelectedId] = useState({ name: "1", code: 1 });
 
-  //   const { data } = await axios.get("/api/users/2/payouts");
   const handleChange = (name: string) => (e: InputNumberChangeEvent) => {
-    console.log(e);
-    // console.log(`${name}: ${e.value}`);
     setFormData({ ...formData, [name]: e.value });
   };
 
@@ -44,26 +41,25 @@ export default function Home() {
   const handleOriginalChange = (e: {
     target: { value: number | string; name: string };
   }) => {
-    console.log(e);
-    console.log(`${e.target.name}: ${e.target.value}`);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const { data } = await axios.post("/api/payouts", { ...formData });
     if (data.error) {
       toast.error(data.error);
     } else {
       toast.success("Successfull Payout!");
-
-      console.log(data);
+      getPayouts();
     }
+
+    setIsSubmitting(false);
   };
 
   useEffect(() => {
-    console.log(selectedId);
     getPayouts();
   }, [selectedId, getPayouts, selectedId.code, selectedId.name]);
 
@@ -131,7 +127,7 @@ export default function Home() {
               size="large"
               severity="info"
               raised
-              //   disabled={isSubmitting}
+              disabled={isSubmitting}
             >
               Submit
             </Button>

@@ -27,7 +27,6 @@ export default function Home() {
       } else {
         login(data.user);
         toast.success("Successful Sign Up!");
-        console.log(data);
       }
     } catch (e: unknown) {
       toast.error(e as string);
