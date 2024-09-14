@@ -26,7 +26,7 @@ export default function Home() {
         toast.error(data.error);
       } else {
         login(data.user);
-        toast.success("Successful Sign Up!");
+        toast.success(`User ID: ${data.user.id}`);
       }
     } catch (e: unknown) {
       toast.error(e as string);

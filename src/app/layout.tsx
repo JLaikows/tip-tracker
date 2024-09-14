@@ -4,7 +4,6 @@ import { PrimeReactProvider } from "primereact/api";
 import { Menubar } from "primereact/menubar";
 import Image from "next/image";
 import logo from "@/images/just logo transparent.png";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import StoreProvider from "@/lib/components/StoreProvider";
