@@ -10,70 +10,9 @@ import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
 import { FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
+import { states } from "@/lib/local";
 
 const now = new Date(Date.now());
-
-const states = [
-  "AL",
-  "AK",
-  "AS",
-  "AZ",
-  "AR",
-  "CA",
-  "CO",
-  "CT",
-  "DE",
-  "DC",
-  "FM",
-  "FL",
-  "GA",
-  "GU",
-  "HI",
-  "ID",
-  "IL",
-  "IN",
-  "IA",
-  "KS",
-  "KY",
-  "LA",
-  "ME",
-  "MH",
-  "MD",
-  "MA",
-  "MI",
-  "MN",
-  "MS",
-  "MO",
-  "MT",
-  "NE",
-  "NV",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "NC",
-  "ND",
-  "MP",
-  "OH",
-  "OK",
-  "OR",
-  "PW",
-  "PA",
-  "PR",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VI",
-  "VA",
-  "WA",
-  "WV",
-  "WI",
-  "WY",
-];
 
 const defaultPayout = {
   amount: 0,
@@ -114,9 +53,9 @@ export default function PayoutCreateForm() {
   };
 
   return (
-    <Panel header="Add Payout" className="b-2 min-h-96">
+    <Panel header="Add Payout" className="b-2 min-h-96 w-4/5">
       <form
-        className="flex flex-col justify-items-left p-0 gap-8"
+        className="flex flex-col justify-items-left p-0 gap-8 w-11/12"
         onSubmit={handleSubmit}
       >
         <input

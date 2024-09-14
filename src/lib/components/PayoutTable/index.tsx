@@ -1,28 +1,24 @@
-import { payout } from "@prisma/client";
+import { payoutMonths } from "@/app/api/users/[id]/payouts/route";
 import { Panel } from "primereact/panel";
-import { FC } from "react";
+import { FC, useMemo } from "react";
+import PayoutTableMonth from "./PayoutTableMonth";
 
 interface IPayoutTable {
-  payouts: payout[];
+  payouts: payoutMonths;
 }
 
 const PayoutTable: FC<IPayoutTable> = ({ payouts }) => {
+  const months = useMemo(() => Object.keys(payouts), [payouts]);
+
   return (
-    <Panel header="Payouts">
-      {payouts.length > 0 &&
-        payouts.map((payout: payout) => (
-          <div
-            className="flex flex-row gap-1"
-            key={`${payout.amount}-${payout.day}-${payout.client}`}
-          >
-            <div>{payout.amount}</div>
-            <div>{payout.year}</div>
-            <div>{payout.month}</div>
-            <div>{payout.day}</div>
-            <div>{payout.client}</div>
-            <div>{payout.state}</div>
-          </div>
-        ))}
+    <Panel header="Payouts" className="w-4/5">
+      {months.map((month) => (
+        <PayoutTableMonth
+          month={Number(month)}
+          payouts={payouts[Number(month)]}
+          key={`${month}-month`}
+        />
+      ))}
     </Panel>
   );
 };

@@ -5,9 +5,10 @@ import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import { useCallback, useEffect, useState } from "react";
+import { payoutMonths } from "../api/users/[id]/payouts/route";
 
 export default function Home() {
-  const [payouts, setPayouts] = useState<[]>([]);
+  const [payouts, setPayouts] = useState<payoutMonths>({});
   const [selectedId, setSelectedId] = useState({ name: "1", code: 1 });
 
   const getPayouts = useCallback(async () => {
@@ -28,7 +29,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-items-center max-h-screen font-[family-name:var(--font-geist-sans)] p-4 ">
-      <main className="flex flex-col gap-8 row-start-2 items-center min-h-80 sm:items-start md:flex-row">
+      <main className="flex flex-col gap-8 row-start-2 items-center w-screen min-h-80 sm:items-start md:flex-row">
         <PayoutCreateForm />
         <Dropdown
           value={selectedId.code}
