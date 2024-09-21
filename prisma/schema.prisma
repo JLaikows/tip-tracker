@@ -37,15 +37,16 @@ model session {
 }
 
 model payout {
-  id      Int     @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   amount  Float
-  owed    Float   @default(0)
-  taxable Boolean @default(false)
+  owed    Float    @default(0)
+  taxable Boolean  @default(false)
   client  String
   state   String
+  date    DateTime @default(now())
   year    Int
   month   Int
   day     Int
   userId  Int
-  user    user    @relation(fields: [userId], references: [id])
+  user    user     @relation(fields: [userId], references: [id])
 }
