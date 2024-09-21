@@ -17,7 +17,7 @@ const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
   return (
     <div className="p-1 ">
       <Card
-        key={`day-${payout.day}`}
+        key={`day-${payout.date}`}
         style={{ width: "95%" }}
         className="p-4 pb-2 pt-2 flex justify-between "
       >

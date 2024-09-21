@@ -61,7 +61,6 @@ export const states = [
 ];
 
 export const fullMonths = [
-  "_",
   "January",
   "February",
   "March",

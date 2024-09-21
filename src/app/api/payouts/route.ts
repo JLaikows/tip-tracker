@@ -12,10 +12,16 @@ export async function POST(req: NextRequest) {
     owed = 0,
   } = await req.json();
 
-  const [year, month, day] = date.split("-").map((str: string) => Number(str));
-
   const payout = await db.payout.create({
-    data: { amount, state, taxable, client, year, month, day, userId, owed },
+    data: {
+      amount,
+      state,
+      taxable,
+      client,
+      date: new Date(date),
+      userId,
+      owed,
+    },
   });
 
   return NextResponse.json({ payout }, { status: 200 });

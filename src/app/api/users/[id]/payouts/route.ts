@@ -6,7 +6,7 @@ export type payoutDays = Record<number, payout[]>;
 export type payoutMonths = Record<number, payoutDays>;
 
 export async function GET(req: NextRequest) {
-  const userId = Number(req.url.split("/")[5]);
+  const userId = Number(req.url?.split("/")[5]);
   const payouts = await db.payout.findMany({ where: { userId } });
 
   const parsedPayouts: payoutMonths = {};
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     if (today.getFullYear() != date.getFullYear()) return;
 
     const month = date.getMonth();
-    const day = date.getDay();
+    const day = date.getDate();
 
     if (!parsedPayouts[month]) {
       parsedPayouts[month] = {};
