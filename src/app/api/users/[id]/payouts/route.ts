@@ -14,19 +14,22 @@ export async function GET(req: NextRequest) {
   const today = new Date(Date.now());
 
   payouts.forEach((payout) => {
-    if (today.getFullYear() != payout.year) return;
-
-    if (!parsedPayouts[payout.month]) {
-      parsedPayouts[payout.month] = {};
-    }
-
-    if (!parsedPayouts[payout.month][payout.day]) {
-      parsedPayouts[payout.month][payout.day] = [];
-    }
-
     const date = new Date(payout.date);
 
-    parsedPayouts[date.getMonth()][date.getDay()].push(payout);
+    if (today.getFullYear() != date.getFullYear()) return;
+
+    const month = date.getMonth();
+    const day = date.getDay();
+
+    if (!parsedPayouts[month]) {
+      parsedPayouts[month] = {};
+    }
+
+    if (!parsedPayouts[month][day]) {
+      parsedPayouts[month][day] = [];
+    }
+
+    parsedPayouts[month][day].push(payout);
   });
 
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
