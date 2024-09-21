@@ -24,7 +24,9 @@ export async function GET(req: NextRequest) {
       parsedPayouts[payout.month][payout.day] = [];
     }
 
-    parsedPayouts[payout.month][payout.day].push(payout);
+    const date = new Date(payout.date);
+
+    parsedPayouts[date.getMonth()][date.getDay()].push(payout);
   });
 
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
