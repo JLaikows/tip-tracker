@@ -1,4 +1,5 @@
 import db from "@/lib/primsa";
+import { getWeekLabel } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,13 +13,18 @@ export async function POST(req: NextRequest) {
     owed = 0,
   } = await req.json();
 
+  const parsedDate = new Date(date);
+
+  const weekLabel = getWeekLabel(parsedDate);
+
   const payout = await db.payout.create({
     data: {
       amount,
       state,
       taxable,
       client,
-      date: new Date(date),
+      date: parsedDate,
+      weekLabel,
       userId,
       owed,
     },
