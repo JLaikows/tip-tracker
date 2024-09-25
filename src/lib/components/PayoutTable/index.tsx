@@ -1,22 +1,25 @@
-import { payoutMonths } from "@/app/api/users/[id]/payouts/route";
+import { TParsedPayouts } from "@/app/api/users/[id]/payouts/route";
 import { Panel } from "primereact/panel";
 import { FC, useMemo } from "react";
-import PayoutTableMonth from "./PayoutTableMonth";
+import PayoutTableWeek from "./PayoutTableWeek";
 
 interface IPayoutTable {
-  payouts: payoutMonths;
+  payouts: TParsedPayouts;
 }
 
 const PayoutTable: FC<IPayoutTable> = ({ payouts }) => {
-  const months = useMemo(() => Object.keys(payouts), [payouts]);
+  const weeks: (keyof TParsedPayouts)[] = useMemo(
+    () => Object.keys(payouts),
+    [payouts]
+  );
 
   return (
     <Panel header="Payouts" className="w-4/5">
-      {months.map((month) => (
-        <PayoutTableMonth
-          month={Number(month)}
-          payouts={payouts[Number(month)]}
-          key={`${month}-month`}
+      {weeks.map((week) => (
+        <PayoutTableWeek
+          label={week}
+          payouts={payouts[week]}
+          key={`week-${week}`}
         />
       ))}
     </Panel>

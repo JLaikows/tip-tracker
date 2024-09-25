@@ -14,14 +14,19 @@ const USDollar = new Intl.NumberFormat("en-us", {
 const columns: (keyof payout)[] = ["state", "amount", "owed", "taxable"];
 
 const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
+  const date = new Date(payout.date).toDateString();
   return (
     <div className="p-1 ">
       <Card
         key={`day-${payout.date}`}
         style={{ width: "95%" }}
-        className="p-4 pb-2 pt-2 flex justify-between "
+        className="p-4 pb-2 pt-2 flex justify-between gap-6"
       >
-        <div className="size-10 font-bold">{payout.client}</div>
+        <div className="pb-4">
+          <div className="font-bold">{payout.client}</div>
+          <div className="text-xs">{date}</div>
+        </div>
+
         {columns.map((column) => {
           const dataPoint = payout[column];
           return (

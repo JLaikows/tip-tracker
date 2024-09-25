@@ -5,10 +5,10 @@ import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import { useCallback, useEffect, useState } from "react";
-import { payoutMonths } from "../api/users/[id]/payouts/route";
+import { TParsedPayouts } from "../api/users/[id]/payouts/route";
 
 export default function Home() {
-  const [payouts, setPayouts] = useState<payoutMonths>({});
+  const [payouts, setPayouts] = useState<TParsedPayouts>({});
   const [selectedId, setSelectedId] = useState({ name: "1", code: 1 });
 
   const getPayouts = useCallback(async () => {
