@@ -17,11 +17,8 @@ export async function GET(req: NextRequest) {
     const date = new Date(payout.date);
 
     if (today.getFullYear() != date.getFullYear()) return;
-    if (!payout.weekLabel) {
-      payout.weekLabel = getWeekLabel(date);
-    }
 
-    const key: keyof TParsedPayouts = payout.weekLabel;
+    const key: keyof TParsedPayouts = payout.weekLabel || getWeekLabel(date);
 
     if (!parsedPayouts[key]) {
       parsedPayouts[key] = [];
@@ -29,6 +26,5 @@ export async function GET(req: NextRequest) {
 
     parsedPayouts[key].push(payout);
   });
-
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
 }
