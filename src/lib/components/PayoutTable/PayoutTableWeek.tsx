@@ -14,7 +14,7 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
 
   return (
     <>
-      <div style={{ borderBottom: isOpen ? "" : "1px solid #dee2e6" }}>
+      <div style={{ borderBottom: "1px solid #dee2e6" }}>
         <div
           key={`day-${label}`}
           className="pb-2 pt-2 pl-6 hover:cursor-pointer"
@@ -23,7 +23,7 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
           <div>{label}</div>
         </div>
       </div>
-      <div className="flex flex-row overflow-scroll no-scrollbar ">
+      <div className="flex flex-row overflow-scroll no-scrollbar max-w-[310px] ">
         {isOpen &&
           payouts.map((payout) => (
             <PayoutTableCard payout={payout} key={Math.random()} />

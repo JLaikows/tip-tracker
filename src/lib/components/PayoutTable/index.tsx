@@ -14,7 +14,10 @@ const PayoutTable: FC<IPayoutTable> = ({ payouts }) => {
   );
 
   return (
-    <Panel header="Payouts" className="w-4/5 border-2 rounded-md">
+    <Panel
+      header="Payouts"
+      className="w-11/12 border-2 rounded-md max-w-[91.666667%]"
+    >
       {weeks.map((week) => (
         <PayoutTableWeek
           label={week}
