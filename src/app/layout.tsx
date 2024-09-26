@@ -27,7 +27,8 @@ export const metadata: Metadata = {
 };
 
 const endLogo = (
-  <div>
+  <div className="flex flex-row">
+    <div>Tip Tracker &nbsp;</div>
     <Image aria-hidden src={logo} alt="File icon" width={24} height={24} />
   </div>
 );

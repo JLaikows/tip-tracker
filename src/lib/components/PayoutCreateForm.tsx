@@ -62,7 +62,10 @@ export default function PayoutCreateForm() {
   };
 
   return (
-    <Panel header="Add Payout" className="b-2 min-h-96 w-4/5">
+    <Panel
+      header="Add Payout"
+      className="b-2 min-h-96 w-4/5 border-2 rounded-md"
+    >
       <form
         className="flex flex-col justify-items-left p-0 gap-8 w-11/12"
         onSubmit={handleSubmit}
