@@ -1,5 +1,5 @@
 import { redirect, RedirectType } from "next/navigation";
-import { COOKIES } from "../api/users/route";
+import { COOKIES } from "@/lib/types";
 import { cookies } from "next/headers";
 import db from "@/lib/primsa";
 

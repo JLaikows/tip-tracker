@@ -4,7 +4,7 @@ import PayoutCreateForm from "@/lib/components/PayoutCreateForm";
 import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { TParsedPayouts } from "../api/payouts/route";
+import { TParsedPayouts } from "@/lib/types";
 import { toast } from "react-toastify";
 
 export default function Home() {

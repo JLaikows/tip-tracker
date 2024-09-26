@@ -1,4 +1,4 @@
-import { TParsedPayouts } from "@/app/api/payouts/route";
+import { TParsedPayouts } from "@/lib/types";
 import { Panel } from "primereact/panel";
 import { FC, useMemo } from "react";
 import PayoutTableWeek from "./PayoutTableWeek";

@@ -8,7 +8,7 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { cookies } from "next/headers";
 import db from "@/lib/primsa";
-import { COOKIES } from "./api/users/route";
+import { COOKIES } from "@/lib/types";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

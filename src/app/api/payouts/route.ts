@@ -2,10 +2,7 @@ import db from "@/lib/primsa";
 import { getWeekLabel } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { COOKIES } from "../users/route";
-import { payout } from "@prisma/client";
-
-export type TParsedPayouts = Record<string, payout[]>;
+import { COOKIES, TParsedPayouts } from "@/lib/types";
 
 export async function GET() {
   const token = cookies().get(COOKIES.Authorization)?.value;

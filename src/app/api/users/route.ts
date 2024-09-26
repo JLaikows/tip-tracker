@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/primsa";
 import { generateToken } from "@/lib/utils";
 import { cookies } from "next/headers";
-
-export enum COOKIES {
-  Authorization = "authorization",
-}
+import { COOKIES } from "@/lib/types";
 
 export async function GET() {
   const token = cookies().get(COOKIES.Authorization)?.value;
