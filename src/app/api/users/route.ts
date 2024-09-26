@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/primsa";
 import { generateToken } from "@/lib/utils";
+import { cookies } from "next/headers";
 
-export async function GET(req: NextRequest) {
-  const token = req.headers.get("authorization")?.split(" ")[2];
+enum COOKIES {
+  Authorization = "authorization",
+}
+
+export async function GET() {
+  const token = cookies().get(COOKIES.Authorization)?.value;
 
   const session = await db.session.findFirst({
     where: { token },
@@ -15,7 +20,6 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json({ user: session.user }, { status: 200 });
-  // const user = await db.user.create({ data: { email } });
 }
 
 export async function POST(req: NextRequest) {
@@ -45,5 +49,28 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  cookies().set({
+    name: COOKIES.Authorization,
+    value: token,
+    httpOnly: true,
+  });
+
   return NextResponse.json({ user, token: "Bearer " + token }, { status: 200 });
+}
+
+export async function DELETE() {
+  const token = cookies().get(COOKIES.Authorization)?.value;
+
+  const session = await db.session.delete({ where: { token } });
+
+  if (!session.id) {
+    return NextResponse.json({ error: "Failed to logout" }, { status: 500 });
+  }
+
+  cookies().delete(COOKIES.Authorization);
+
+  return NextResponse.json(
+    { message: "Successfully logged out" },
+    { status: 200 }
+  );
 }
