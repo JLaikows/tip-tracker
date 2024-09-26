@@ -18,7 +18,6 @@ const defaultPayout = {
   amount: 0,
   taxable: false,
   state: "NJ",
-  userId: 0,
   date: now.toISOString().slice(0, 10),
   client: "",
   owed: 0,
@@ -38,8 +37,18 @@ export default function PayoutCreateForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateFormDate = () => {
+    if (formData.client === "") {
+      return true;
+    }
+
+    return false;
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    if (validateFormDate()) return;
+
     setIsSubmitting(true);
 
     const { data } = await axios.post("/api/payouts", { ...formData });
@@ -106,15 +115,6 @@ export default function PayoutCreateForm() {
             onChange={handleOriginalChange}
           />
         </div>
-        <FloatLabel>
-          <InputNumber
-            value={formData.userId}
-            onChange={handleChange("userId")}
-            maxFractionDigits={0}
-            variant="filled"
-          />
-          <label>UserId</label>
-        </FloatLabel>
         <div>
           <Checkbox
             checked={formData.taxable}

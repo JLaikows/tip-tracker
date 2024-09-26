@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/lib/state/userSlice";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 export default function Home() {
   const [email, setEmail] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
@@ -25,8 +27,7 @@ export default function Home() {
       if (data.error) {
         toast.error(data.error);
       } else {
-        login(data.user);
-        toast.success(`User ID: ${data.user.id}`);
+        router.push("/dashboard");
       }
     } catch (e: unknown) {
       toast.error(e as string);

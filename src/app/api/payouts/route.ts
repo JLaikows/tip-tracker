@@ -15,8 +15,9 @@ export async function GET() {
     cookies().delete(COOKIES.Authorization);
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
-  const payouts = await db.payout.findMany();
-  console.log(payouts);
+  const payouts = await db.payout.findMany({
+    where: { userId: session?.userId },
+  });
 
   const parsedPayouts: TParsedPayouts = {};
 

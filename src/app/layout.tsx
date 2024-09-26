@@ -6,7 +6,9 @@ import Image from "next/image";
 import logo from "@/images/just logo transparent.png";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
-import StoreProvider from "@/lib/components/StoreProvider";
+import { cookies } from "next/headers";
+import db from "@/lib/primsa";
+import { COOKIES } from "./api/users/route";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +32,7 @@ const endLogo = (
   </div>
 );
 
-const menuOptions = [
+const signedOutOptions = [
   {
     label: "Login",
     url: "/login",
@@ -39,29 +41,41 @@ const menuOptions = [
     label: "Sign Up",
     url: "/signup",
   },
+];
+
+const loggedInOptions = [
   {
     label: "Dashboard",
     url: "/dashboard",
   },
+  {
+    label: "Logout",
+    url: "/logout",
+  },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = cookies().get(COOKIES.Authorization)?.value;
+  const session = await db.session.findFirst({ where: { token } });
+  let menuOptions = signedOutOptions;
+  if (session?.userId) {
+    menuOptions = loggedInOptions;
+  }
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <StoreProvider>
-          <PrimeReactProvider>
-            <Menubar model={menuOptions} end={endLogo} />
-            {children}
-          </PrimeReactProvider>
-          <ToastContainer />
-        </StoreProvider>
+        <PrimeReactProvider>
+          <Menubar model={menuOptions} end={endLogo} />
+          {children}
+        </PrimeReactProvider>
+        <ToastContainer />
       </body>
     </html>
   );
