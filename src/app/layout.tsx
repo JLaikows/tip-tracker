@@ -60,10 +60,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const token = cookies().get(COOKIES.Authorization)?.value;
-  const session = await db.session.findFirst({ where: { token } });
+
   let menuOptions = signedOutOptions;
-  if (session?.userId) {
-    menuOptions = loggedInOptions;
+
+  if (token) {
+    const session = await db.session.findFirst({ where: { token } });
+
+    if (session?.userId) {
+      menuOptions = loggedInOptions;
+    }
   }
 
   return (

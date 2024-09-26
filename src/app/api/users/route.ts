@@ -12,7 +12,7 @@ export async function GET() {
     include: { user: true },
   });
 
-  if (!session?.id) {
+  if (!session?.id || !token) {
     return NextResponse.json({ user: null }, { status: 200 });
   }
 
