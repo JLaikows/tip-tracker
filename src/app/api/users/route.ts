@@ -3,7 +3,7 @@ import db from "@/lib/primsa";
 import { generateToken } from "@/lib/utils";
 import { cookies } from "next/headers";
 
-enum COOKIES {
+export enum COOKIES {
   Authorization = "authorization",
 }
 
