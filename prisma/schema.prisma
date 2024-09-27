@@ -25,6 +25,7 @@ model user {
   email    String    @unique @default("")
   sessions session[]
   payouts  payout[]
+  clients  client[]
 }
 
 model session {
@@ -47,4 +48,12 @@ model payout {
   weekLabel String?
   userId    Int
   user      user     @relation(fields: [userId], references: [id])
+}
+
+model client {
+  id     Int    @id @default(autoincrement())
+  name   String
+  state  String
+  userId Int
+  user   user   @relation(fields: [userId], references: [id])
 }
