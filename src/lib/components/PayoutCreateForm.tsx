@@ -66,7 +66,9 @@ export default function PayoutCreateForm() {
     (newClients: string[]) => {
       setFormData({ ...formData, client: newClients[0] });
     },
-    [formData]
+    // disabled because adding formData causes an infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   useEffect(() => {
