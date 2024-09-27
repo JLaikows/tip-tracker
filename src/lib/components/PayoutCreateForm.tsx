@@ -6,11 +6,11 @@ import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
-import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
+import { client } from "@prisma/client";
 
 const now = new Date(Date.now());
 
@@ -25,6 +25,7 @@ const defaultPayout = {
 
 export default function PayoutCreateForm() {
   const [formData, setFormData] = useState(defaultPayout);
+  const [clients, setClients] = useState([""]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleChange = (name: string) => (e: InputNumberChangeEvent) => {
@@ -60,6 +61,30 @@ export default function PayoutCreateForm() {
 
     setIsSubmitting(false);
   };
+
+  useEffect(() => {
+    const getClientList = async () => {
+      const { data } = await axios.get("/api/clients");
+
+      const newClients: string[] = data.clients.map(
+        (client: client) => client.name
+      );
+
+      if (!newClients.length) {
+        setIsSubmitting(true);
+        toast.error("No Clients Found");
+        toast.error("Please create a client to continue");
+      }
+
+      const setData = () => {
+        setFormData({ ...formData, client: newClients[0] });
+      };
+
+      setData();
+      setClients(newClients);
+    };
+    getClientList();
+  }, []);
 
   return (
     <Panel
@@ -104,12 +129,11 @@ export default function PayoutCreateForm() {
           </FloatLabel>
         </div>
         <div className="flex flex-row gap-8">
-          <InputText
-            size={14}
-            placeholder="Client"
+          <Dropdown
             name="client"
-            onChange={handleOriginalChange}
+            options={clients}
             value={formData.client}
+            onChange={handleOriginalChange}
           />
           <Dropdown
             name="state"
