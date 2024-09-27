@@ -13,8 +13,8 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <>
-      <div style={{ borderBottom: "1px solid #dee2e6" }}>
+    <div style={{ borderBottom: "1px solid #dee2e6" }}>
+      <div>
         <div
           key={`day-${label}`}
           className="pb-2 pt-2 pl-6 hover:cursor-pointer"
@@ -29,7 +29,7 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
             <PayoutTableCard payout={payout} key={Math.random()} />
           ))}
       </div>
-    </>
+    </div>
   );
 };
 

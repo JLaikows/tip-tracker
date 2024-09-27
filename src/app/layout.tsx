@@ -7,7 +7,6 @@ import logo from "@/images/just logo transparent.png";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { cookies } from "next/headers";
-import db from "@/lib/primsa";
 import { COOKIES } from "@/lib/types";
 
 const geistSans = localFont({
@@ -66,15 +65,7 @@ export default async function RootLayout({
 }>) {
   const token = cookies().get(COOKIES.Authorization)?.value;
 
-  let menuOptions = signedOutOptions;
-
-  if (token) {
-    const session = await db.session.findFirst({ where: { token } });
-
-    if (session?.userId) {
-      menuOptions = loggedInOptions;
-    }
-  }
+  const menuOptions = token ? loggedInOptions : signedOutOptions;
 
   return (
     <html lang="en">
