@@ -7,7 +7,7 @@ import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
 import { Panel } from "primereact/panel";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
 import { client } from "@prisma/client";
@@ -62,6 +62,13 @@ export default function PayoutCreateForm() {
     setIsSubmitting(false);
   };
 
+  const setData = useCallback(
+    (newClients: string[]) => {
+      setFormData({ ...formData, client: newClients[0] });
+    },
+    [formData]
+  );
+
   useEffect(() => {
     const getClientList = async () => {
       const { data } = await axios.get("/api/clients");
@@ -76,15 +83,11 @@ export default function PayoutCreateForm() {
         toast.error("Please create a client to continue");
       }
 
-      const setData = () => {
-        setFormData({ ...formData, client: newClients[0] });
-      };
-
-      setData();
+      setData(newClients);
       setClients(newClients);
     };
     getClientList();
-  }, []);
+  }, [setData]);
 
   return (
     <Panel

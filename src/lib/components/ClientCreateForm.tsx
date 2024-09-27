@@ -38,11 +38,11 @@ export default function ClientCreateForm() {
 
     setIsSubmitting(true);
 
-    const { data } = await axios.post("/api/payouts", { ...formData });
+    const { data } = await axios.post("/api/clients", { ...formData });
     if (data.error) {
       toast.error(data.error);
     } else {
-      toast.success("Successfull Payout!");
+      toast.success("Successfull Client Creation!");
     }
 
     setIsSubmitting(false);
