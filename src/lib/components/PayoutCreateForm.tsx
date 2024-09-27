@@ -11,6 +11,7 @@ import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
 import { client } from "@prisma/client";
+import { TDropdownOptions } from "../types";
 
 const now = new Date(Date.now());
 
@@ -19,13 +20,13 @@ const defaultPayout = {
   taxable: false,
   state: "NJ",
   date: now.toISOString().slice(0, 10),
-  client: "",
+  clientId: 0,
   owed: 0,
 };
 
 export default function PayoutCreateForm() {
   const [formData, setFormData] = useState(defaultPayout);
-  const [clients, setClients] = useState([""]);
+  const [clients, setClients] = useState<TDropdownOptions>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleChange = (name: string) => (e: InputNumberChangeEvent) => {
@@ -39,7 +40,7 @@ export default function PayoutCreateForm() {
   };
 
   const validateFormDate = () => {
-    if (formData.client === "") {
+    if (formData.clientId === 0) {
       return true;
     }
 
@@ -63,8 +64,8 @@ export default function PayoutCreateForm() {
   };
 
   const setData = useCallback(
-    (newClients: string[]) => {
-      setFormData({ ...formData, client: newClients[0] });
+    (newClients: TDropdownOptions) => {
+      setFormData({ ...formData, clientId: newClients[0].value as number });
     },
     // disabled because adding formData causes an infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,11 +73,18 @@ export default function PayoutCreateForm() {
   );
 
   useEffect(() => {
+    console.table(formData);
+  }, [formData]);
+
+  useEffect(() => {
     const getClientList = async () => {
       const { data } = await axios.get("/api/clients");
 
-      const newClients: string[] = data.clients.map(
-        (client: client) => client.name
+      const newClients: TDropdownOptions = data.clients.map(
+        (client: client) => ({
+          label: client.name,
+          value: client.id,
+        })
       );
 
       if (!newClients.length) {
@@ -137,7 +145,9 @@ export default function PayoutCreateForm() {
           <Dropdown
             name="client"
             options={clients}
-            value={formData.client}
+            optionLabel="label"
+            optionValue="value"
+            value={formData.clientId}
             onChange={handleOriginalChange}
           />
           <Dropdown

@@ -1,9 +1,9 @@
-import { payout } from "@prisma/client";
+import { client, payout } from "@prisma/client";
 import { Card } from "primereact/card";
 import { FC } from "react";
 
 interface IPayoutTableCard {
-  payout: payout;
+  payout: payout & { client: client | null };
 }
 
 const USDollar = new Intl.NumberFormat("en-us", {
@@ -23,7 +23,7 @@ const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
         className="p-4 pb-2 pt-2 flex justify-between gap-6"
       >
         <div className="pb-4">
-          <div className="font-bold">{payout.client}</div>
+          <div className="font-bold">{payout.client?.name}</div>
           <div className="text-xs">{date}</div>
         </div>
 

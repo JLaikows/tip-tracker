@@ -14,6 +14,7 @@ export async function GET() {
   }
   const payouts = await db.payout.findMany({
     where: { userId: session?.userId },
+    include: { client: true },
   });
 
   const parsedPayouts: TParsedPayouts = {};
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
     amount,
     state,
     taxable = false,
-    client,
+    clientId,
     date,
     owed = 0,
   } = await req.json();
@@ -64,7 +65,7 @@ export async function POST(req: NextRequest) {
       amount,
       state,
       taxable,
-      client,
+      clientId,
       date: parsedDate,
       weekLabel,
       //used as an override for "Or null", as we already check if theres a user ID above
