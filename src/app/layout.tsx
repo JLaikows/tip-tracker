@@ -50,7 +50,7 @@ const loggedInOptions = [
   },
   {
     label: "Clients",
-    url: "dashboard/clients",
+    url: "/dashboard/clients",
   },
   {
     label: "Logout",
