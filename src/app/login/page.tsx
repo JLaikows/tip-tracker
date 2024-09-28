@@ -28,6 +28,7 @@ export default function Home() {
         toast.error(data.error);
       } else {
         router.push("/dashboard");
+        router.refresh();
       }
     } catch (e: unknown) {
       toast.error(e as string);
