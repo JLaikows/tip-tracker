@@ -1,22 +1,16 @@
 import { redirect, RedirectType } from "next/navigation";
 import { COOKIES } from "@/lib/types";
 import { cookies } from "next/headers";
-import db from "@/lib/primsa";
 import axios from "axios";
 
 export default async function Logout() {
-  const cookie = cookies();
-  const token = cookie.get(COOKIES.Authorization)?.value;
+  const token = cookies().get(COOKIES.Authorization)?.value;
 
   if (!token) {
     redirect("/login", RedirectType.push);
   }
 
   try {
-    const session = await db.session.delete({ where: { token } });
-
-    if (!session?.id) return <>Failed to log out</>;
-
     const base = process.env.NEXT_PUBLIC_API_URL;
     await axios.get(`${base}/api/users`);
   } catch (e: unknown) {
