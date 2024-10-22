@@ -12,7 +12,7 @@ export default async function Logout() {
   }
 
   try {
-    await axios.get(`${base}/api/users`);
+    await axios.delete(`${base}/api/users`);
   } catch (e: unknown) {
     return <>Failed to log out: {(e as { message: string }).message}</>;
   } finally {

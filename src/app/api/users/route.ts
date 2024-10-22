@@ -64,7 +64,7 @@ export async function DELETE() {
     return NextResponse.json({ error: "Failed to logout" }, { status: 500 });
   }
 
-  cookies().delete(COOKIES.Authorization);
+  cookies().set(COOKIES.Authorization, "");
 
   return NextResponse.json(
     { message: "Successfully logged out" },

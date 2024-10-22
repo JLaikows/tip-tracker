@@ -4,10 +4,10 @@ import axios from "axios";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { Panel } from "primereact/panel";
 import { FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
+import StyledCard from "./StyledCard";
 
 const defaultPayout = {
   name: "",
@@ -49,7 +49,7 @@ export default function ClientCreateForm() {
   };
 
   return (
-    <Panel header="Add Client" className="b-2 w-11/12 border-2 rounded-md">
+    <StyledCard title="Create Client">
       <form
         className="flex flex-col justify-items-left p-0 gap-8 w-11/12"
         onSubmit={handleSubmit}
@@ -78,6 +78,6 @@ export default function ClientCreateForm() {
           Submit
         </Button>
       </form>
-    </Panel>
+    </StyledCard>
   );
 }
