@@ -65,6 +65,7 @@ export default async function RootLayout({
 }>) {
   const token = cookies().get(COOKIES.Authorization)?.value;
 
+  //should be moved into seperate component to allow update on log in and log out
   const menuOptions = token ? loggedInOptions : signedOutOptions;
 
   return (
