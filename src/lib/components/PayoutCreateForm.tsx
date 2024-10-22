@@ -58,6 +58,7 @@ export default function PayoutCreateForm() {
       toast.error(data.error);
     } else {
       toast.success("Successfull Payout!");
+      setFormData(defaultPayout);
     }
 
     setIsSubmitting(false);
