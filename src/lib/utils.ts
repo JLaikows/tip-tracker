@@ -14,17 +14,20 @@ export const generateToken: (length: number) => string = (length: number) => {
 };
 
 /**
- * Takes a date and a week start (reffering to the day of the week) to create a label that will be used to organize payouts in a table
+ * Takes date and a weekStart argument, then returns the beggining of the week
  * @param date
  * @param weekStart
- * @returns string
+ * @returns
  */
-export const getWeekLabel: (date: Date, weekStart?: number) => string = (
+export const getWeekStartDate: (date: Date, weekStart?: number) => Date = (
   date,
   weekStart = 4
 ) => {
+  //creates a new date object so we don't override the old one
+  const dupDate = new Date(date.getTime());
+
   //gets the current day of the week from the date object
-  const currentDayOfTheWeek = date.getDay();
+  const currentDayOfTheWeek = dupDate.getDay();
 
   //subtracks the first day of the week from the current
   let firstOfWeek: number = currentDayOfTheWeek - weekStart;
@@ -37,7 +40,21 @@ export const getWeekLabel: (date: Date, weekStart?: number) => string = (
 
   //setting the date instead of creating a new date object IS NECESSARY
   //as this allows the js to compensate if a week started in a previous month
-  date.setDate(date.getDate() - firstOfWeek);
+  dupDate.setDate(date.getDate() - firstOfWeek);
 
-  return `${date.getMonth() + 1}/${date.getDate()}`;
+  return dupDate;
+};
+
+/**
+ * Takes a date and a week start (reffering to the day of the week) to create a label that will be used to organize payouts in a table
+ * @param date
+ * @param weekStart
+ * @returns string
+ */
+export const getWeekLabel: (date: Date, weekStart?: number) => string = (
+  date,
+  weekStart = 4
+) => {
+  const firstOfWeek = getWeekStartDate(date, weekStart);
+  return `${firstOfWeek.getMonth() + 1}/${firstOfWeek.getDate()}`;
 };
