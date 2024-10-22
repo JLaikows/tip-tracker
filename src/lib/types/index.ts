@@ -15,3 +15,8 @@ export type TDropdownOption = {
 };
 
 export type TDropdownOptions = TDropdownOption[];
+
+export type TWeeklyStats = {
+  totalEarned: number;
+  totalOwed: number;
+};

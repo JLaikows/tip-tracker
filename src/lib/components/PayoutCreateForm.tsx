@@ -73,10 +73,6 @@ export default function PayoutCreateForm() {
   );
 
   useEffect(() => {
-    console.table(formData);
-  }, [formData]);
-
-  useEffect(() => {
     const getClientList = async () => {
       const { data } = await axios.get("/api/clients");
 
