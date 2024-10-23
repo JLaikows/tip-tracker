@@ -1,9 +1,10 @@
-import { client, payout } from "@prisma/client";
+import { TParsedPayout } from "@/lib/types";
+import { payout } from "@prisma/client";
 import { Card } from "primereact/card";
 import { FC } from "react";
 
 interface IPayoutTableCard {
-  payout: payout & { client: client | null };
+  payout: TParsedPayout;
 }
 
 const USDollar = new Intl.NumberFormat("en-us", {

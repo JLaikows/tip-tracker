@@ -4,12 +4,17 @@ import PayoutCreateForm from "@/lib/components/PayoutCreateForm";
 import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { TParsedPayouts, TWeeklyStats } from "@/lib/types";
+import { TWeeklyStats } from "@/lib/types";
 import { toast } from "react-toastify";
 import WeeklyTotal from "@/lib/components/WeeklyTotal";
+import { IPayoutState, usePayoutStore } from "@/lib/hooks/payouts";
 
 export default function Home() {
-  const [payouts, setPayouts] = useState<TParsedPayouts>({});
+  const [payouts, setPayouts] = usePayoutStore((state: IPayoutState) => [
+    state.payouts,
+    state.setPayouts,
+  ]);
+  // const [payouts, setPayouts] = useState<TParsedPayouts>({});
   const [weeklyStats, setWeeklyStats] = useState<TWeeklyStats>({
     totalOwed: 0,
     totalEarned: 0,
@@ -25,7 +30,7 @@ export default function Home() {
       setWeeklyStats(weeklyStats.data);
       setPayouts(payouts.data.payouts);
     }
-  }, []);
+  }, [setPayouts]);
 
   useEffect(() => {
     getData();

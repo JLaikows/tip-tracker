@@ -1,9 +1,9 @@
-import { client, payout } from "@prisma/client";
 import { FC, useState } from "react";
 import PayoutTableCard from "./PayoutTableCard";
+import { TParsedPayout } from "@/lib/types";
 
 interface IPayoutTableDay {
-  payouts: (payout & { client: client | null })[];
+  payouts: TParsedPayout[];
   label: string;
 }
 

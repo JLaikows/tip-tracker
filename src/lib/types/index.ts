@@ -4,10 +4,9 @@ export enum COOKIES {
   Authorization = "authorization",
 }
 
-export type TParsedPayouts = Record<
-  string,
-  (payout & { client: client | null })[]
->;
+export type TParsedPayout = payout & { client: client | null };
+
+export type TParsedPayouts = Record<string, TParsedPayout[]>;
 
 export type TDropdownOption = {
   label: string;
