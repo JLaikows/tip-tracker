@@ -25,7 +25,7 @@ export default function Home() {
   }, [getClients]);
 
   return (
-    <div className="flex items-center justify-items-center max-h-screen font-[family-name:var(--font-geist-sans)] p-4 ">
+    <div className="flex items-center justify-items-center font-[family-name:var(--font-geist-sans)] p-4 ">
       <main className="flex flex-col gap-8 row-start-2 items-center w-screen min-h-80 sm:items-start md:flex-row">
         <ClientCreateForm />
         <Panel

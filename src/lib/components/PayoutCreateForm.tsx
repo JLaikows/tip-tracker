@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { states } from "@/lib/local";
 import { client } from "@prisma/client";
 import { TDropdownOptions } from "../types";
+import { usePayoutStore } from "../hooks/payouts";
 
 const now = new Date(Date.now());
 
@@ -25,6 +26,7 @@ const defaultPayout = {
 };
 
 export default function PayoutCreateForm() {
+  const { addPayout } = usePayoutStore.getState();
   const [formData, setFormData] = useState(defaultPayout);
   const [clients, setClients] = useState<TDropdownOptions>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -58,7 +60,8 @@ export default function PayoutCreateForm() {
       toast.error(data.error);
     } else {
       toast.success("Successfull Payout!");
-      setFormData(defaultPayout);
+      addPayout(data.payout);
+      setFormData({ ...defaultPayout, clientId: formData.clientId });
     }
 
     setIsSubmitting(false);
@@ -89,7 +92,6 @@ export default function PayoutCreateForm() {
         toast.error("No Clients Found");
         toast.error("Please create a client to continue");
       }
-
       setData(newClients);
       setClients(newClients);
     };
