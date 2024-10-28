@@ -1,5 +1,4 @@
-import { TParsedPayout } from "@/lib/types";
-import { payout } from "@prisma/client";
+import { TParsedPayout, TPayout } from "@/lib/types";
 import { Card } from "primereact/card";
 import { FC } from "react";
 
@@ -12,7 +11,7 @@ const USDollar = new Intl.NumberFormat("en-us", {
   currency: "USD",
 });
 
-const columns: (keyof payout)[] = ["state", "amount", "owed", "taxable"];
+const columns: (keyof TPayout)[] = ["state", "amount", "owed", "taxable"];
 
 const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
   const date = new Date(payout.date).toDateString();

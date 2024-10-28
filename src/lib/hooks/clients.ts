@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import axios from "axios";
-import { client } from "@prisma/client";
+import { TClient } from "../types";
 
 export interface IClientState {
-  clients: client[];
+  clients: TClient[];
   getClients: () => Promise<void | string>;
-  addClient: (client: client) => void;
+  addClient: (client: TClient) => void;
 }
 
 export const useClientStore = create<IClientState>()((set) => ({
@@ -21,9 +21,9 @@ export const useClientStore = create<IClientState>()((set) => ({
       };
     });
   },
-  addClient: (client: client) =>
+  addClient: (client: TClient) =>
     set((state: IClientState) => {
-      const updatedClients: client[] = [...state.clients];
+      const updatedClients: TClient[] = [...state.clients];
 
       updatedClients.push(client);
 
