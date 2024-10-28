@@ -8,6 +8,7 @@ import { FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
 import StyledCard from "./StyledCard";
+import { useClientStore } from "../hooks/clients";
 
 const defaultPayout = {
   name: "",
@@ -15,6 +16,7 @@ const defaultPayout = {
 };
 
 export default function ClientCreateForm() {
+  const { addClient } = useClientStore.getState();
   const [formData, setFormData] = useState(defaultPayout);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -42,6 +44,7 @@ export default function ClientCreateForm() {
     if (data.error) {
       toast.error(data.error);
     } else {
+      addClient(data.client);
       toast.success("Successfull Client Creation!");
     }
 

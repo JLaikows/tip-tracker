@@ -26,7 +26,6 @@ export default function Home() {
     } else {
       setWeeklyStats(weeklyStats.data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPayouts]);
 
   useEffect(() => {

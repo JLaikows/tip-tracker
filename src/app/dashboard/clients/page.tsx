@@ -1,28 +1,25 @@
 "use client";
 
 import ClientCreateForm from "@/lib/components/ClientCreateForm";
-import { client } from "@prisma/client";
-import axios from "axios";
+import { IClientState, useClientStore } from "@/lib/hooks/clients";
 import { Panel } from "primereact/panel";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function Home() {
-  const [clients, setClients] = useState<client[]>([]);
+  const state = useClientStore((state: IClientState) => state);
+  const { getClients } = useClientStore.getState();
 
-  const getClients = useCallback(async () => {
-    const { data } = await axios.get(`/api/clients`);
-
-    if (data.error) {
-      toast.error(data.error);
-    } else {
-      setClients(data.clients);
+  const getClientsCall = useCallback(async () => {
+    const error = await getClients();
+    if (error) {
+      toast.error(error);
     }
-  }, []);
+  }, [getClients]);
 
   useEffect(() => {
-    getClients();
-  }, [getClients]);
+    getClientsCall();
+  }, [getClientsCall]);
 
   return (
     <div className="flex items-center justify-items-center font-[family-name:var(--font-geist-sans)] p-4 ">
@@ -32,8 +29,8 @@ export default function Home() {
           header="Clients"
           className="w-11/12 border-2 rounded-md max-w-[91.666667%]"
         >
-          {!clients.length && <>No Clients To Show</>}
-          {clients.map((client) => (
+          {!state.clients.length && <>No Clients To Show</>}
+          {state.clients.map((client) => (
             <div
               key={`${client.name}-client`}
               className="flex flex-row justify-between"

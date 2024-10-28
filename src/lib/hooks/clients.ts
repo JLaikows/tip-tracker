@@ -2,22 +2,31 @@ import { create } from "zustand";
 import axios from "axios";
 import { client } from "@prisma/client";
 
-export interface IPayoutState {
+export interface IClientState {
   clients: client[];
-  getClients: () => void;
+  getClients: () => Promise<void | string>;
+  addClient: (client: client) => void;
 }
 
-export const usePayoutStore = create<IPayoutState>()((set) => ({
+export const useClientStore = create<IClientState>()((set) => ({
   clients: [],
   getClients: async () => {
     const res = await axios.get(`/api/clients`);
     if (res.data.error) return res.data.error;
 
-    set((state: IPayoutState) => {
+    set((state: IClientState) => {
       return {
         ...state,
-        payouts: res.data.clients,
+        clients: res.data.clients,
       };
     });
   },
+  addClient: (client: client) =>
+    set((state: IClientState) => {
+      const updatedClients: client[] = [...state.clients];
+
+      updatedClients.push(client);
+
+      return { ...state, clients: updatedClients };
+    }),
 }));

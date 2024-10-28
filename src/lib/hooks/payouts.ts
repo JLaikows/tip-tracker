@@ -36,14 +36,14 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
       return newState;
     }),
   getPayouts: async () => {
-    const payouts = await axios.get(`/api/payouts`);
-    if (payouts.data.error) return payouts.data.error;
+    const res = await axios.get(`/api/payouts`);
+    if (res.data.error) return res.data.error;
 
     set((state: IPayoutState) => {
       return {
         ...state,
-        payouts: payouts.data.payouts,
-        weeks: Object.keys(payouts.data.payouts),
+        payouts: res.data.payouts,
+        weeks: Object.keys(res.data.payouts),
       };
     });
   },
