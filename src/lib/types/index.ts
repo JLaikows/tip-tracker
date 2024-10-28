@@ -1,10 +1,10 @@
-import { client, payout } from "@prisma/client";
+import { client, payout, session, user } from "@prisma/client";
 
 export enum COOKIES {
   Authorization = "authorization",
 }
 
-export type TParsedPayout = payout & { client: client | null };
+export type TParsedPayout = payout & { client: TClient | null };
 
 export type TParsedPayouts = Record<string, TParsedPayout[]>;
 
@@ -19,3 +19,13 @@ export type TWeeklyStats = {
   totalEarned: number;
   totalOwed: number;
 };
+
+// Adding types for more consistent naming convention
+
+export type TUser = user;
+
+export type TPayout = payout;
+
+export type TClient = client;
+
+export type TSession = session;
