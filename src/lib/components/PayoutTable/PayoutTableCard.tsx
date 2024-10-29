@@ -1,9 +1,9 @@
-import { TParsedPayout, TPayout } from "@/lib/types";
+import { TPayout } from "@/lib/types";
 import { Card } from "primereact/card";
 import { FC } from "react";
 
 interface IPayoutTableCard {
-  payout: TParsedPayout;
+  payout: TPayout;
 }
 
 const USDollar = new Intl.NumberFormat("en-us", {
