@@ -1,19 +1,19 @@
 import { create } from "zustand";
-import { TParsedPayout, TParsedPayouts } from "../types";
+import { TPayout, TPayouts } from "../types";
 import axios from "axios";
 
 export interface IPayoutState {
-  payouts: TParsedPayouts;
-  weeks: (keyof TParsedPayouts)[];
-  addPayout: (payout: TParsedPayout) => void;
-  setPayouts: (payouts: TParsedPayouts) => void;
+  payouts: TPayouts;
+  weeks: (keyof TPayouts)[];
+  addPayout: (payout: TPayout) => void;
+  setPayouts: (payouts: TPayouts) => void;
   getPayouts: () => Promise<void | string>;
 }
 
 export const usePayoutStore = create<IPayoutState>()((set) => ({
   payouts: {},
   weeks: [],
-  addPayout: (payout: TParsedPayout) =>
+  addPayout: (payout: TPayout) =>
     set((state: IPayoutState) => {
       const newState = { ...state };
       const label = payout.weekLabel as keyof typeof newState.payouts;
@@ -27,7 +27,7 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
       debugger;
       return newState;
     }),
-  setPayouts: (payouts: TParsedPayouts) =>
+  setPayouts: (payouts: TPayouts) =>
     set((state: IPayoutState) => {
       const newState = { ...state };
 

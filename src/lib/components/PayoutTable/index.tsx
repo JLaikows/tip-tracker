@@ -1,11 +1,11 @@
-import { TParsedPayouts } from "@/lib/types";
+import { TPayouts } from "@/lib/types";
 import { Panel } from "primereact/panel";
 import { FC } from "react";
 import PayoutTableWeek from "./PayoutTableWeek";
 
 interface IPayoutTable {
-  payouts: TParsedPayouts;
-  weeks: (keyof TParsedPayouts)[];
+  payouts: TPayouts;
+  weeks: (keyof TPayouts)[];
 }
 
 const PayoutTable: FC<IPayoutTable> = ({ payouts, weeks }) => {

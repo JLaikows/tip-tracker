@@ -2,7 +2,7 @@ import db from "@/lib/primsa";
 import { getWeekLabel } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { COOKIES, TParsedPayouts } from "@/lib/types";
+import { COOKIES, TPayouts } from "@/lib/types";
 
 export async function GET() {
   const token = cookies().get(COOKIES.Authorization)?.value;
@@ -17,7 +17,7 @@ export async function GET() {
     include: { client: true },
   });
 
-  const parsedPayouts: TParsedPayouts = {};
+  const parsedPayouts: TPayouts = {};
 
   const today = new Date(Date.now());
 
@@ -27,7 +27,7 @@ export async function GET() {
     if (today.getFullYear() != date.getFullYear()) return;
 
     //getWeekLabel is a temp fallback until old db entries are updated
-    const key: keyof TParsedPayouts = payout.weekLabel || getWeekLabel(date);
+    const key: keyof TPayouts = payout.weekLabel || getWeekLabel(date);
 
     if (!parsedPayouts[key]) {
       parsedPayouts[key] = [];
