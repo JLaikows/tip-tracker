@@ -41,12 +41,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # TODO
 
+<s>Strikethrough</s> - completed || **Bold** - Being worked on
+
+- <s>Convert prisma Types to T\* for consistent naming convention</s> -<s>update navbar to seperate component so it updates when logging in and logging out</s>
 - Create middleware for api for sessions
 - Move "add" api calls from components into store hooks
-- <s>Convert prisma Types to T\* for consistent naming convention</s>
 - Add loading animation to all components using async calls
-- introduce "user" hook for logging in and logging out
-- update navbar to seperate component so it updates when logging in and logging out
+- **introduce "user" hook for logging in and logging out**
 - Add password for logging in and out
 - Add edit functions to payouts and clients
 - update User to have home state
+- update total earned and total owed to calculate on backend
+- update payout lists to be sent as an object with keys instead of an array

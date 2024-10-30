@@ -54,20 +54,3 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ user, token: "Bearer " + token }, { status: 200 });
 }
-
-export async function DELETE() {
-  const token = cookies().get(COOKIES.Authorization)?.value;
-
-  const session = await db.session.delete({ where: { token } });
-
-  if (!session.id) {
-    return NextResponse.json({ error: "Failed to logout" }, { status: 500 });
-  }
-
-  cookies().set(COOKIES.Authorization, "");
-
-  return NextResponse.json(
-    { message: "Successfully logged out" },
-    { status: 200 }
-  );
-}
