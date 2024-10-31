@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import PayoutTableCard from "./PayoutTableCard";
-import { TParsedPayout } from "@/lib/types";
+import { TPayoutsWeek } from "@/lib/types";
 
 interface IPayoutTableDay {
-  payouts: TParsedPayout[];
+  payoutWeekList: TPayoutsWeek;
   label: string;
 }
 
-const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
+const PayoutTableDay: FC<IPayoutTableDay> = ({ payoutWeekList, label }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -23,11 +23,20 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payouts, label }) => {
           <div>{label}</div>
         </div>
       </div>
-      <div className="flex flex-row overflow-scroll no-scrollbar max-w-[310px] ">
-        {isOpen &&
-          payouts.map((payout) => (
-            <PayoutTableCard payout={payout} key={Math.random()} />
-          ))}
+      <div>
+        {isOpen && (
+          <div>
+            <div className="flex flex-row justify-between">
+              <div>Earned: &nbsp;{payoutWeekList.earned}</div>
+              <div>Owed: &nbsp;{payoutWeekList.owed}</div>
+            </div>
+            <div className="flex flex-row overflow-scroll no-scrollbar max-w-[310px] ">
+              {payoutWeekList.payouts.map((payout) => (
+                <PayoutTableCard payout={payout} key={Math.random()} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
