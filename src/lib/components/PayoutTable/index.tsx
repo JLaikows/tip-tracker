@@ -17,7 +17,7 @@ const PayoutTable: FC<IPayoutTable> = ({ payouts, weeks }) => {
       {weeks.map((week) => (
         <PayoutTableWeek
           label={week}
-          payouts={payouts[week]}
+          payouts={payouts[week].payouts}
           key={`week-${week}`}
         />
       ))}

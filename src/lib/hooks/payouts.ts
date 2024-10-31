@@ -3,6 +3,8 @@ import { TPayout, TPayouts } from "../types";
 import axios from "axios";
 
 export interface IPayoutState {
+  weekTotalEarned: number;
+  weekTotalOwed: number;
   payouts: TPayouts;
   weeks: (keyof TPayouts)[];
   addPayout: (payout: TPayout) => void;
@@ -11,20 +13,27 @@ export interface IPayoutState {
 }
 
 export const usePayoutStore = create<IPayoutState>()((set) => ({
+  weekTotalEarned: 0,
+  weekTotalOwed: 0,
   payouts: {},
   weeks: [],
   addPayout: (payout: TPayout) =>
     set((state: IPayoutState) => {
       const newState = { ...state };
       const label = payout.weekLabel as keyof typeof newState.payouts;
-      debugger;
+
       if (!newState.payouts[label]) {
-        newState.payouts[label] = [];
+        newState.payouts[label] = {
+          payouts: [],
+          earned: 0,
+          owed: 0,
+        };
         newState.weeks.push(label);
       }
 
-      newState.payouts[label].push(payout);
-      debugger;
+      newState.payouts[label].payouts.push(payout);
+      newState.payouts[label].earned += payout.amount;
+      newState.payouts[label].owed += payout.owed;
       return newState;
     }),
   setPayouts: (payouts: TPayouts) =>

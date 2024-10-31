@@ -30,10 +30,16 @@ export async function GET() {
     const key: keyof TPayouts = payout.weekLabel || getWeekLabel(date);
 
     if (!parsedPayouts[key]) {
-      parsedPayouts[key] = [];
+      parsedPayouts[key] = {
+        payouts: [],
+        owed: 0,
+        earned: 0,
+      };
     }
 
-    parsedPayouts[key].push(payout);
+    parsedPayouts[key].payouts.push(payout);
+    parsedPayouts[key].earned += payout.amount;
+    parsedPayouts[key].owed += payout.owed;
   });
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
 }
