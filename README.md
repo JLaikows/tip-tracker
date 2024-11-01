@@ -47,9 +47,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Create middleware for api for sessions
 - Move "add" api calls from components into store hooks
 - Add loading animation to all components using async calls
-- **introduce "user" hook for logging in and logging out**
 - Add password for logging in and out
 - Add edit functions to payouts and clients
 - update User to have home state
 - update total earned and total owed to calculate on backend
 - update payout lists to be sent as an object with keys instead of an array
+- Removed Owed from payout
