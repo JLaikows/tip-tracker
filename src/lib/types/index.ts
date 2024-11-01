@@ -5,7 +5,7 @@ export enum COOKIES {
 }
 
 export type TPayoutsWeek = {
-  payouts: TPayout[];
+  payouts: Record<string, TPayout>;
   earned: number;
   owed: number;
 };

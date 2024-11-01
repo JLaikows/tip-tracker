@@ -20,20 +20,20 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
   addPayout: (payout: TPayout) =>
     set((state: IPayoutState) => {
       const newState = { ...state };
-      const label = payout.weekLabel as keyof typeof newState.payouts;
+      const weekLabel = payout.weekLabel as keyof typeof newState.payouts;
 
-      if (!newState.payouts[label]) {
-        newState.payouts[label] = {
-          payouts: [],
+      if (!newState.payouts[weekLabel]) {
+        newState.payouts[weekLabel] = {
+          payouts: {},
           earned: 0,
           owed: 0,
         };
-        newState.weeks.push(label);
+        newState.weeks.push(weekLabel);
       }
 
-      newState.payouts[label].payouts.push(payout);
-      newState.payouts[label].earned += payout.amount;
-      newState.payouts[label].owed += payout.owed;
+      newState.payouts[weekLabel].payouts[payout.id] = payout;
+      newState.payouts[weekLabel].earned += payout.amount;
+      newState.payouts[weekLabel].owed += payout.owed;
       return newState;
     }),
   setPayouts: (payouts: TPayouts) =>

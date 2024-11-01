@@ -27,19 +27,19 @@ export async function GET() {
     if (today.getFullYear() != date.getFullYear()) return;
 
     //getWeekLabel is a temp fallback until old db entries are updated
-    const key: keyof TPayouts = payout.weekLabel || getWeekLabel(date);
+    const weekLabel: keyof TPayouts = payout.weekLabel || getWeekLabel(date);
 
-    if (!parsedPayouts[key]) {
-      parsedPayouts[key] = {
-        payouts: [],
+    if (!parsedPayouts[weekLabel]) {
+      parsedPayouts[weekLabel] = {
+        payouts: {},
         owed: 0,
         earned: 0,
       };
     }
 
-    parsedPayouts[key].payouts.push(payout);
-    parsedPayouts[key].earned += payout.amount;
-    parsedPayouts[key].owed += payout.owed;
+    parsedPayouts[weekLabel].payouts[payout.id] = payout;
+    parsedPayouts[weekLabel].earned += payout.amount;
+    parsedPayouts[weekLabel].owed += payout.owed;
   });
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import PayoutTableCard from "./PayoutTableCard";
 import { TPayoutsWeek } from "@/lib/types";
 
@@ -11,6 +11,11 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payoutWeekList, label }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const payouts = useMemo(
+    () => Object.values(payoutWeekList.payouts),
+    [payoutWeekList]
+  );
 
   return (
     <div style={{ borderBottom: "1px solid #dee2e6" }}>
@@ -31,7 +36,7 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payoutWeekList, label }) => {
               <div>Owed: &nbsp;{payoutWeekList.owed}</div>
             </div>
             <div className="flex flex-row overflow-scroll no-scrollbar max-w-[310px] ">
-              {payoutWeekList.payouts.map((payout) => (
+              {payouts.map((payout) => (
                 <PayoutTableCard payout={payout} key={Math.random()} />
               ))}
             </div>
