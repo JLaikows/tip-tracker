@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "User Not Found" }, { status: 200 });
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = await bcrypt.compare(password, user.password || "");
 
   if (!passwordMatch) {
     return NextResponse.json({ error: "Incorrect Password" }, { status: 200 });
