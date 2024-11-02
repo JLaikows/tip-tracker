@@ -22,7 +22,7 @@ model loginAttempt {
 model user {
   id            Int            @id @default(autoincrement())
   phone         String         @default("")
-  password      String
+  password      String?
   email         String         @unique @default("")
   sessions      session[]
   payouts       payout[]
