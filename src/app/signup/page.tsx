@@ -1,5 +1,6 @@
 "use client";
 
+import { authFormData } from "@/lib/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
@@ -8,14 +9,19 @@ import { Panel } from "primereact/panel";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { toast } from "react-toastify";
 
+const defaultFormData: authFormData = {
+  email: "",
+  password: "",
+};
+
 export default function Home() {
-  const [email, setEmail] = useState<string>("");
+  const [formData, setFormData] = useState<authFormData>(defaultFormData);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const router = useRouter();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setEmail(e.target.value);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -23,11 +29,11 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const { data } = await axios.post("/api/users/signup", { email });
+      const { data } = await axios.post("/api/users/signup", formData);
       if (data.error) {
         toast.error(data.error);
       } else {
-        router.push("/dashboard");
+        router.push("/dashboard/clients");
         router.refresh();
       }
     } catch (e: unknown) {
@@ -47,9 +53,18 @@ export default function Home() {
           >
             <InputText
               size="large"
+              name="email"
               placeholder="Email"
               onChange={handleChange}
-              value={email}
+              value={formData.email}
+            />
+            <InputText
+              size="large"
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              value={formData.password}
             />
             <Button
               className="p-button p-2"

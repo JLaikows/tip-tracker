@@ -13,6 +13,7 @@ export const useClientStore = create<IClientState>()((set) => ({
   getClients: async () => {
     const res = await axios.get(`/api/clients`);
     if (res.data.error) return res.data.error;
+    if (!res.data.clients.length) return "Create a client to continue!!";
 
     set((state: IClientState) => {
       return {

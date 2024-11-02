@@ -24,6 +24,11 @@ export type TWeeklyStats = {
   totalOwed: number;
 };
 
+export type authFormData = {
+  email: string;
+  password: string;
+};
+
 // Adding types for more consistent naming convention
 
 export type TUser = user;

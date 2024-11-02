@@ -3,6 +3,7 @@ import db from "@/lib/primsa";
 import { generateToken } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { COOKIES } from "@/lib/types";
+import bcrypt from "bcrypt";
 
 export async function GET() {
   const token = cookies().get(COOKIES.Authorization)?.value;
@@ -20,16 +21,24 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { email }: { email: string } = await req.json();
+  const { email, password }: { email: string; password: string } =
+    await req.json();
 
   const user = await db.user.findFirst({
     where: { email },
-    select: { email: true, id: true, phone: true },
+    select: { email: true, id: true, phone: true, password: true },
   });
 
   if (!user?.id) {
     return NextResponse.json({ error: "User Not Found" }, { status: 200 });
   }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    return NextResponse.json({ error: "Incorrect Password" }, { status: 200 });
+  }
+
   const token = generateToken(112);
 
   const session = await db.session.create({
