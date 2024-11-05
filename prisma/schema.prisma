@@ -59,7 +59,7 @@ model unpaidPayout {
   amount    Float
   taxable   Boolean  @default(false)
   payed     Boolean  @default(false)
-  date      DateTime @default(now())
+  due       DateTime @default(now())
   weekLabel String?
   userId    Int
   user      user     @relation(fields: [userId], references: [id])
