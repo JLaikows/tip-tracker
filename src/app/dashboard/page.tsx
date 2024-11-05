@@ -1,33 +1,26 @@
 "use client";
 
-import PayoutCreateForm from "@/lib/components/Forms/PayoutCreateForm";
-import PayoutTable from "@/lib/components/PayoutTable";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { TWeeklyStats } from "@/lib/types";
 import { toast } from "react-toastify";
 import WeeklyTotal from "@/lib/components/WeeklyTotal";
-import { usePayoutStore } from "@/lib/hooks/payouts";
-import UnpaidPayoutCreateForm from "@/lib/components/Forms/unpaidPayoutCreateForm";
 
 export default function Home() {
-  const { getPayouts } = usePayoutStore.getState();
-  const state = usePayoutStore((state) => state);
   const [weeklyStats, setWeeklyStats] = useState<TWeeklyStats>({
     totalOwed: 0,
     totalEarned: 0,
   });
 
   const getData = useCallback(async () => {
-    const error = await getPayouts();
     const weeklyStats = await axios.get(`/api/payouts/total`);
 
-    if (error || weeklyStats.data.error) {
-      toast.error(error || weeklyStats.data.error);
+    if (weeklyStats.data.error) {
+      toast.error(weeklyStats.data.error);
     } else {
       setWeeklyStats(weeklyStats.data);
     }
-  }, [getPayouts]);
+  }, []);
 
   useEffect(() => {
     getData();
@@ -40,9 +33,6 @@ export default function Home() {
           earned={weeklyStats.totalEarned}
           owed={weeklyStats.totalOwed}
         />
-        <PayoutCreateForm />
-        <UnpaidPayoutCreateForm />
-        <PayoutTable payouts={state.payouts} weeks={state.weeks} />
       </main>
     </div>
   );

@@ -52,7 +52,7 @@ export default function UnpaidPayoutCreateForm() {
 
     setIsSubmitting(true);
 
-    const { data } = await axios.post("/api/unpaid-payouts", { ...formData });
+    const { data } = await axios.post("/api/invoices", { ...formData });
     if (data.error) {
       toast.error(data.error);
     } else {
@@ -97,7 +97,7 @@ export default function UnpaidPayoutCreateForm() {
 
   return (
     <Panel
-      header="Add Unpaid-Payout"
+      header="Add Invoice"
       className="b-2 min-h-96 w-11/12 border-2 rounded-md"
     >
       <form

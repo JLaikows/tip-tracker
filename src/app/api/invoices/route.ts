@@ -12,7 +12,7 @@ export async function GET() {
     cookies().delete(COOKIES.Authorization);
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
-  const unpaidPayouts = await db.unpaidPayout.findMany({
+  const unpaidPayouts = await db.invoice.findMany({
     where: { userId: session?.userId },
   });
 
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   const parsedDate = new Date(due);
 
-  const unpaidPayout = await db.unpaidPayout.create({
+  const unpaidPayout = await db.invoice.create({
     data: {
       amount,
       taxable,

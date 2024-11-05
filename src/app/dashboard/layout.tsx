@@ -14,6 +14,8 @@ export default async function DashboardLayout({
 
   const items = [
     { label: "Overview", icon: "pi pi-home", url: "/dashboard" },
+    { label: "Payouts", icon: "pi pi-chart-line", url: "/dashboard/payouts" },
+    { label: "Invoices", icon: "pi pi-chart-line", url: "/dashboard/invoices" },
     { label: "Clients", icon: "pi pi-chart-line", url: "/dashboard/clients" },
   ];
 
