@@ -53,3 +53,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - update total earned and total owed to calculate on backend
 - update payout lists to be sent as an object with keys instead of an array
 - Removed Owed from payout
+- Only include needed columns in api responses
