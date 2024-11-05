@@ -30,7 +30,7 @@ const loggedInOptions = [
   },
   {
     label: "Settings",
-    url: "/settings",
+    // url: "/settings",
   },
   {
     label: "Logout",

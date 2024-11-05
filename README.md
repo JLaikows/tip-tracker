@@ -57,3 +57,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - combine payout and unpaid-payout into one form
 - Add Full info to clients
 - add full info to user
+- update sessions to use redis instead of postgres
