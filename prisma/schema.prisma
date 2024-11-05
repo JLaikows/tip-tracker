@@ -20,14 +20,14 @@ model loginAttempt {
 }
 
 model user {
-  id            Int            @id @default(autoincrement())
-  phone         String         @default("")
-  password      String?
-  email         String         @unique @default("")
-  sessions      session[]
-  payouts       payout[]
-  clients       client[]
-  unpaidPayouts unpaidPayout[]
+  id       Int       @id @default(autoincrement())
+  phone    String    @default("")
+  password String?
+  email    String    @unique @default("")
+  sessions session[]
+  payouts  payout[]
+  clients  client[]
+  invoices invoice[]
 }
 
 model session {
@@ -40,21 +40,21 @@ model session {
 }
 
 model payout {
-  id           Int           @id @default(autoincrement())
-  amount       Float
-  owed         Float         @default(0)
-  taxable      Boolean       @default(false)
-  state        String
-  date         DateTime      @default(now())
-  weekLabel    String?
-  userId       Int
-  user         user          @relation(fields: [userId], references: [id])
-  clientId     Int?
-  client       client?       @relation(fields: [clientId], references: [id])
-  unpaidPayout unpaidPayout?
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  owed      Float    @default(0)
+  taxable   Boolean  @default(false)
+  state     String
+  date      DateTime @default(now())
+  weekLabel String?
+  userId    Int
+  user      user     @relation(fields: [userId], references: [id])
+  clientId  Int?
+  client    client?  @relation(fields: [clientId], references: [id])
+  invoices  invoice?
 }
 
-model unpaidPayout {
+model invoice {
   id        Int      @id @default(autoincrement())
   amount    Float
   taxable   Boolean  @default(false)
@@ -70,11 +70,11 @@ model unpaidPayout {
 }
 
 model client {
-  id            Int            @id @default(autoincrement())
-  name          String
-  state         String
-  userId        Int
-  user          user           @relation(fields: [userId], references: [id])
-  payouts       payout[]
-  unpaidPayouts unpaidPayout[]
+  id       Int       @id @default(autoincrement())
+  name     String
+  state    String
+  userId   Int
+  user     user      @relation(fields: [userId], references: [id])
+  payouts  payout[]
+  invoices invoice[]
 }
