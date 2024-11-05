@@ -9,25 +9,22 @@ import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
 import { Panel } from "primereact/panel";
 import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { states } from "@/lib/local";
-import { TClient } from "../types";
-import { TDropdownOptions } from "../types";
-import { usePayoutStore } from "../hooks/payouts";
+import { TClient } from "../../types";
+import { TDropdownOptions } from "../../types";
+import { usePayoutStore } from "../../hooks/payouts";
 
 const now = new Date(Date.now());
 
-const defaultPayout = {
+const defaultUnpaidPayout = {
   amount: 0,
   taxable: false,
-  state: "NJ",
-  date: now.toISOString().slice(0, 10),
+  due: now.toISOString().slice(0, 10),
   clientId: 0,
-  owed: 0,
 };
 
-export default function PayoutCreateForm() {
+export default function UnpaidPayoutCreateForm() {
   const { addPayout } = usePayoutStore.getState();
-  const [formData, setFormData] = useState(defaultPayout);
+  const [formData, setFormData] = useState(defaultUnpaidPayout);
   const [clients, setClients] = useState<TDropdownOptions>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -55,13 +52,13 @@ export default function PayoutCreateForm() {
 
     setIsSubmitting(true);
 
-    const { data } = await axios.post("/api/payouts", { ...formData });
+    const { data } = await axios.post("/api/unpaid-payouts", { ...formData });
     if (data.error) {
       toast.error(data.error);
     } else {
       toast.success("Successfull Payout!");
       addPayout(data.payout);
-      setFormData({ ...defaultPayout, clientId: formData.clientId });
+      setFormData({ ...defaultUnpaidPayout, clientId: formData.clientId });
     }
 
     setIsSubmitting(false);
@@ -100,7 +97,7 @@ export default function PayoutCreateForm() {
 
   return (
     <Panel
-      header="Add Payout"
+      header="Add Unpaid-Payout"
       className="b-2 min-h-96 w-11/12 border-2 rounded-md"
     >
       <form
@@ -109,9 +106,9 @@ export default function PayoutCreateForm() {
       >
         <input
           type="date"
-          name="date"
+          name="due"
           onChange={handleOriginalChange}
-          value={formData.date}
+          value={formData.due}
         />
         <div className="flex flex-row gap-8">
           <FloatLabel>
@@ -127,18 +124,6 @@ export default function PayoutCreateForm() {
               variant="filled"
             />
           </FloatLabel>
-          <FloatLabel>
-            <label>Owed</label>
-            <InputNumber
-              name="owed"
-              size={9}
-              value={formData.owed}
-              onChange={handleChange("owed")}
-              minFractionDigits={0}
-              maxFractionDigits={2}
-              variant="filled"
-            />
-          </FloatLabel>
         </div>
         <div className="flex flex-row gap-8">
           <Dropdown
@@ -147,12 +132,6 @@ export default function PayoutCreateForm() {
             optionLabel="label"
             optionValue="value"
             value={formData.clientId}
-            onChange={handleOriginalChange}
-          />
-          <Dropdown
-            name="state"
-            options={states}
-            value={formData.state}
             onChange={handleOriginalChange}
           />
         </div>

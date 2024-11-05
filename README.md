@@ -54,3 +54,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - update payout lists to be sent as an object with keys instead of an array
 - Removed Owed from payout
 - Only include needed columns in api responses
+- combine payout and unpaid-payout into one form
+- Add Full info to clients
+- add full info to user

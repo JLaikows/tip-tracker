@@ -29,8 +29,8 @@ const loggedInOptions = [
     url: "/dashboard",
   },
   {
-    label: "Clients",
-    url: "/dashboard/clients",
+    label: "Settings",
+    url: "/settings",
   },
   {
     label: "Logout",
