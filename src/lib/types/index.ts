@@ -1,4 +1,4 @@
-import { client, payout, session, user } from "@prisma/client";
+import { client, invoice, payout, session, user } from "@prisma/client";
 
 export enum COOKIES {
   Authorization = "authorization",
@@ -11,6 +11,10 @@ export type TPayoutsWeek = {
 };
 
 export type TPayouts = Record<string, TPayoutsWeek>;
+
+export type TInvoices = Record<string, TParsedInvoice>;
+
+export type TParsedInvoice = Partial<TInvoice> & { clientName: string | null };
 
 export type TDropdownOption = {
   label: string;
@@ -38,3 +42,5 @@ export type TPayout = payout & { client: TClient | null };
 export type TClient = client;
 
 export type TSession = session;
+
+export type TInvoice = invoice;

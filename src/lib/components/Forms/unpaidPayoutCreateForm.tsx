@@ -11,7 +11,7 @@ import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { TClient } from "../../types";
 import { TDropdownOptions } from "../../types";
-import { usePayoutStore } from "../../hooks/payouts";
+import { useInvoiceStore } from "@/lib/hooks/invoices";
 
 const now = new Date(Date.now());
 
@@ -23,7 +23,7 @@ const defaultUnpaidPayout = {
 };
 
 export default function UnpaidPayoutCreateForm() {
-  const { addPayout } = usePayoutStore.getState();
+  const { addInvoice } = useInvoiceStore.getState();
   const [formData, setFormData] = useState(defaultUnpaidPayout);
   const [clients, setClients] = useState<TDropdownOptions>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -56,8 +56,8 @@ export default function UnpaidPayoutCreateForm() {
     if (data.error) {
       toast.error(data.error);
     } else {
-      toast.success("Successfull Payout!");
-      addPayout(data.payout);
+      toast.success("Successfull Invoice!");
+      addInvoice(data.payout);
       setFormData({ ...defaultUnpaidPayout, clientId: formData.clientId });
     }
 

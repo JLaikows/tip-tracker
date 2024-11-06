@@ -12,12 +12,21 @@ export async function GET() {
     cookies().delete(COOKIES.Authorization);
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
-  const unpaidPayouts = await db.invoice.findMany({
+  const invoices = await db.invoice.findMany({
+    where: { userId: session?.userId, payed: false },
+  });
+
+  const clients = await db.client.findMany({
     where: { userId: session?.userId },
   });
 
+  const parsedInvoices = invoices.map((invoice) => ({
+    ...invoice,
+    clientName: clients.find((client) => client.id === invoice.clientId)?.name,
+  }));
+
   return NextResponse.json(
-    { unpaidPayouts: _.keyBy(unpaidPayouts, "id") },
+    { invoices: _.keyBy(parsedInvoices, "id") },
     { status: 200 }
   );
 }
@@ -35,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   const parsedDate = new Date(due);
 
-  const unpaidPayout = await db.invoice.create({
+  const invoice = await db.invoice.create({
     data: {
       amount,
       taxable,
@@ -45,7 +54,11 @@ export async function POST(req: NextRequest) {
       //used as an override for "Or null", as we already check if theres a user ID above
       userId: session?.userId as number,
     },
+    include: { client: true },
   });
 
-  return NextResponse.json({ unpaidPayout }, { status: 200 });
+  return NextResponse.json(
+    { invoice: { ...invoice, clientName: invoice.client.name } },
+    { status: 200 }
+  );
 }
