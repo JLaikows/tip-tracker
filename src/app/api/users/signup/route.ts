@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/primsa";
 import { generateToken } from "@/lib/utils";
-import bycrpt from "bcrypt";
+import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { COOKIES } from "@/lib/types";
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "User Already Exists" }, { status: 200 });
   }
 
-  const encryptedPassword = await bycrpt.hash(password, 10);
+  const encryptedPassword = await bcrypt.hash(password, 10);
 
   const user = await db.user.create({
     data: { email, password: encryptedPassword },

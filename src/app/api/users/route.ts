@@ -33,10 +33,31 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "User Not Found" }, { status: 200 });
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password || "");
+  //temp fix to add password to accounts, to be removed
+  if (!user.password || user.password === "") {
+    const encryptedPassword = await bcrypt.hash(password, 10);
 
-  if (!passwordMatch) {
-    return NextResponse.json({ error: "Incorrect Password" }, { status: 200 });
+    const updatedUser = await db.user.update({
+      where: { id: user.id },
+      data: { email, password: encryptedPassword },
+    });
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { error: "New Password Not Saved" },
+        { status: 200 }
+      );
+    }
+  } else {
+    //should be left once fix is no longer needed
+    const passwordMatch = await bcrypt.compare(password, user.password || "");
+
+    if (!passwordMatch) {
+      return NextResponse.json(
+        { error: "Incorrect Password" },
+        { status: 200 }
+      );
+    }
   }
 
   const token = generateToken(112);
