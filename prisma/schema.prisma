@@ -51,6 +51,7 @@ model payout {
   user      user     @relation(fields: [userId], references: [id])
   clientId  Int?
   client    client?  @relation(fields: [clientId], references: [id])
+  invoiceId Int?
   invoice   invoice?
 }
 
