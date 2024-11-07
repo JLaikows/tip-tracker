@@ -51,24 +51,22 @@ model payout {
   user      user     @relation(fields: [userId], references: [id])
   clientId  Int?
   client    client?  @relation(fields: [clientId], references: [id])
-  invoiceId Int?
-  invoice   invoice?
+  invoiceId Int?     @unique
+  invoice   invoice? @relation(fields: [invoiceId], references: [id])
 }
 
 model invoice {
-  id        Int      @id @default(autoincrement())
-  number    String?
-  amount    Float
-  taxable   Boolean  @default(false)
-  payed     Boolean  @default(false)
-  due       DateTime @default(now())
-  weekLabel String?
-  userId    Int
-  user      user     @relation(fields: [userId], references: [id])
-  clientId  Int
-  client    client   @relation(fields: [clientId], references: [id])
-  payoutId  Int?     @unique
-  payout    payout?  @relation(fields: [payoutId], references: [id])
+  id       Int      @id @default(autoincrement())
+  number   String?
+  amount   Float
+  taxable  Boolean  @default(false)
+  payed    Boolean  @default(false)
+  due      DateTime @default(now())
+  userId   Int
+  user     user     @relation(fields: [userId], references: [id])
+  clientId Int
+  client   client   @relation(fields: [clientId], references: [id])
+  payout   payout?
 }
 
 model client {
