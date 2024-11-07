@@ -10,20 +10,22 @@ export async function GET() {
 
   if (!session?.userId) {
     cookies().delete(COOKIES.Authorization);
-    NextResponse.json({ error: "Session Not Found" }, { status: 200 });
+    return NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
   const invoices = await db.invoice.findMany({
     where: { userId: session?.userId, payed: false },
+    include: { client: true },
   });
 
-  const clients = await db.client.findMany({
-    where: { userId: session?.userId },
-  });
-
-  const parsedInvoices = invoices.map((invoice) => ({
-    ...invoice,
-    clientName: clients.find((client) => client.id === invoice.clientId)?.name,
-  }));
+  const parsedInvoices = invoices.map((invoice) =>
+    _.omit(
+      {
+        ...invoice,
+        clientName: invoice.client.name,
+      },
+      ["client", "userId", "weekLabel", "payoutId", "clientId"]
+    )
+  );
 
   return NextResponse.json(
     { invoices: _.keyBy(parsedInvoices, "id") },
