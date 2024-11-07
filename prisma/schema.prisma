@@ -51,11 +51,12 @@ model payout {
   user      user     @relation(fields: [userId], references: [id])
   clientId  Int?
   client    client?  @relation(fields: [clientId], references: [id])
-  invoices  invoice?
+  invoice   invoice?
 }
 
 model invoice {
   id        Int      @id @default(autoincrement())
+  number    String?
   amount    Float
   taxable   Boolean  @default(false)
   payed     Boolean  @default(false)
