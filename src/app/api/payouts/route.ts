@@ -32,14 +32,12 @@ export async function GET() {
     if (!parsedPayouts[weekLabel]) {
       parsedPayouts[weekLabel] = {
         payouts: {},
-        owed: 0,
         earned: 0,
       };
     }
 
     parsedPayouts[weekLabel].payouts[payout.id] = payout;
     parsedPayouts[weekLabel].earned += payout.amount;
-    parsedPayouts[weekLabel].owed += payout.owed;
   });
   return NextResponse.json({ payouts: parsedPayouts }, { status: 200 });
 }
@@ -53,14 +51,7 @@ export async function POST(req: NextRequest) {
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
 
-  const {
-    amount,
-    state,
-    taxable = false,
-    clientId,
-    date,
-    owed = 0,
-  } = await req.json();
+  const { amount, state, taxable = false, clientId, date } = await req.json();
 
   const parsedDate = new Date(date);
 
@@ -76,7 +67,6 @@ export async function POST(req: NextRequest) {
       weekLabel,
       //used as an override for "Or null", as we already check if theres a user ID above
       userId: session?.userId as number,
-      owed,
     },
   });
 

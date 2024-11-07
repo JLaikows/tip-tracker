@@ -22,7 +22,6 @@ const defaultPayout = {
   state: "NJ",
   date: now.toISOString().slice(0, 10),
   clientId: 0,
-  owed: 0,
 };
 
 export default function PayoutCreateForm() {

@@ -10,7 +10,6 @@ export enum COOKIES {
 export type TPayoutsWeek = {
   payouts: Record<string, TPayout>;
   earned: number;
-  owed: number;
 };
 
 export type TPayouts = Record<string, TPayoutsWeek>;
@@ -28,7 +27,6 @@ export type TDropdownOptions = TDropdownOption[];
 
 export type TWeeklyStats = {
   totalEarned: number;
-  totalOwed: number;
 };
 
 export type authFormData = {

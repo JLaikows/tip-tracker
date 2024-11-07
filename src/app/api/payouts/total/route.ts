@@ -14,7 +14,6 @@ export async function GET() {
   }
 
   let totalEarned = 0;
-  let totalOwed = 0;
 
   const weekStart = 4;
 
@@ -27,8 +26,7 @@ export async function GET() {
 
   payouts.forEach((payout) => {
     totalEarned += payout.amount;
-    totalOwed += payout.owed;
   });
 
-  return NextResponse.json({ totalEarned, totalOwed }, { status: 200 });
+  return NextResponse.json({ totalEarned }, { status: 200 });
 }

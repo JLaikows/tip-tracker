@@ -54,3 +54,12 @@ export const getWeekLabel: TGetWeekLabel = (date, weekStart = 4) => {
   const firstOfWeek = getWeekStartDate(date, weekStart);
   return `${firstOfWeek.getMonth() + 1}/${firstOfWeek.getDate()}`;
 };
+
+/**
+ * Returns a formatted string for dollar amounts
+ * @param amount number
+ */
+export const formatCurrency = new Intl.NumberFormat("en-us", {
+  style: "currency",
+  currency: "USD",
+}).format;

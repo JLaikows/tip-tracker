@@ -4,7 +4,6 @@ import axios from "axios";
 
 export interface IPayoutState {
   weekTotalEarned: number;
-  weekTotalOwed: number;
   payouts: TPayouts;
   weeks: (keyof TPayouts)[];
   addPayout: (payout: TPayout) => void;
@@ -14,7 +13,6 @@ export interface IPayoutState {
 
 export const usePayoutStore = create<IPayoutState>()((set) => ({
   weekTotalEarned: 0,
-  weekTotalOwed: 0,
   payouts: {},
   weeks: [],
   addPayout: (payout: TPayout) =>
@@ -26,14 +24,12 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
         newState.payouts[weekLabel] = {
           payouts: {},
           earned: 0,
-          owed: 0,
         };
         newState.weeks.push(weekLabel);
       }
 
       newState.payouts[weekLabel].payouts[payout.id] = payout;
       newState.payouts[weekLabel].earned += payout.amount;
-      newState.payouts[weekLabel].owed += payout.owed;
       return newState;
     }),
   setPayouts: (payouts: TPayouts) =>

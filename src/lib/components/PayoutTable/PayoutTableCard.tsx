@@ -1,17 +1,13 @@
 import { TPayout } from "@/lib/types";
 import { Card } from "primereact/card";
+import { formatCurrency } from "@/lib/utils";
 import { FC } from "react";
 
 interface IPayoutTableCard {
   payout: TPayout;
 }
 
-const USDollar = new Intl.NumberFormat("en-us", {
-  style: "currency",
-  currency: "USD",
-});
-
-const columns: (keyof TPayout)[] = ["state", "amount", "owed", "taxable"];
+const columns: (keyof TPayout)[] = ["state", "amount", "taxable"];
 
 const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
   const date = new Date(payout.date).toDateString();
@@ -36,8 +32,8 @@ const PayoutTableCard: FC<IPayoutTableCard> = ({ payout }) => {
             >
               <div>{column}</div>
               <div>
-                {["amount", "owed"].includes(column)
-                  ? USDollar.format(dataPoint as number)
+                {["amount"].includes(column)
+                  ? formatCurrency(dataPoint as number)
                   : `${dataPoint}`}
               </div>
             </div>

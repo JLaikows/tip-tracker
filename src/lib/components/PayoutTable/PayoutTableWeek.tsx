@@ -33,7 +33,6 @@ const PayoutTableDay: FC<IPayoutTableDay> = ({ payoutWeekList, label }) => {
           <div>
             <div className="flex flex-row justify-between">
               <div>Earned: &nbsp;{payoutWeekList.earned}</div>
-              <div>Owed: &nbsp;{payoutWeekList.owed}</div>
             </div>
             <div className="flex flex-row overflow-scroll no-scrollbar max-w-[310px] ">
               {payouts.map((payout) => (
