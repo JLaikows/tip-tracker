@@ -1,9 +1,11 @@
+import { TGenerateToken, TGetWeekLabel, TGetWeekStartDate } from "./types";
+
 /**
  * Takes an argument `length` (a number) and returns a randomized string based on that length
  * @param length
  * @returns string
  */
-export const generateToken: (length: number) => string = (length: number) => {
+export const generateToken: TGenerateToken = (length) => {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$&#";
   let result = "";
@@ -19,10 +21,7 @@ export const generateToken: (length: number) => string = (length: number) => {
  * @param weekStart
  * @returns
  */
-export const getWeekStartDate: (date: Date, weekStart?: number) => Date = (
-  date,
-  weekStart = 4
-) => {
+export const getWeekStartDate: TGetWeekStartDate = (date, weekStart = 4) => {
   //creates a new date object so we don't override the old one
   const dupDate = new Date(date.getTime());
 
@@ -51,10 +50,7 @@ export const getWeekStartDate: (date: Date, weekStart?: number) => Date = (
  * @param weekStart
  * @returns string
  */
-export const getWeekLabel: (date: Date, weekStart?: number) => string = (
-  date,
-  weekStart = 4
-) => {
+export const getWeekLabel: TGetWeekLabel = (date, weekStart = 4) => {
   const firstOfWeek = getWeekStartDate(date, weekStart);
   return `${firstOfWeek.getMonth() + 1}/${firstOfWeek.getDate()}`;
 };

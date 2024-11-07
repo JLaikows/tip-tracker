@@ -1,4 +1,7 @@
 import { client, invoice, payout, session, user } from "@prisma/client";
+import { NextRequest } from "next/server";
+
+export type { TGenerateToken, TGetWeekStartDate, TGetWeekLabel } from "./utils";
 
 export enum COOKIES {
   Authorization = "authorization",
@@ -31,6 +34,10 @@ export type TWeeklyStats = {
 export type authFormData = {
   email: string;
   password: string;
+};
+
+export type TAuthNextRequest = NextRequest & {
+  session: (TSession & { user: TUser }) | null;
 };
 
 // Adding types for more consistent naming convention
