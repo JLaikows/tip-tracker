@@ -36,6 +36,7 @@ export default function Home() {
               className="flex flex-row justify-between"
             >
               <div>{client.name}</div>
+              <div>{client.serial}</div>
               <div>{client.state}</div>
             </div>
           ))}

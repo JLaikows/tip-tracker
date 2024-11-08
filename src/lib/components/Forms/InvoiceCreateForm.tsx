@@ -20,6 +20,7 @@ const defaultUnpaidPayout = {
   taxable: false,
   due: now.toISOString().slice(0, 10),
   clientId: 0,
+  createInvoiceNumber: true,
 };
 
 export default function UnpaidPayoutCreateForm() {
@@ -57,7 +58,7 @@ export default function UnpaidPayoutCreateForm() {
       toast.error(data.error);
     } else {
       toast.success("Successfull Invoice!");
-      addInvoice(data.payout);
+      addInvoice(data.invoice);
       setFormData({ ...defaultUnpaidPayout, clientId: formData.clientId });
     }
 
@@ -127,7 +128,7 @@ export default function UnpaidPayoutCreateForm() {
         </div>
         <div className="flex flex-row gap-8">
           <Dropdown
-            name="client"
+            name="clientId"
             options={clients}
             optionLabel="label"
             optionValue="value"
@@ -145,6 +146,20 @@ export default function UnpaidPayoutCreateForm() {
             name="taxable"
           />
           <label>Taxable</label>
+        </div>
+        <div>
+          <Checkbox
+            checked={formData.createInvoiceNumber}
+            value={formData.createInvoiceNumber}
+            onChange={() =>
+              setFormData({
+                ...formData,
+                createInvoiceNumber: !formData.createInvoiceNumber,
+              })
+            }
+            name="createInvoiceNumber"
+          />
+          <label>Create Invoice Number</label>
         </div>
         <Button
           className="p-button p-2 flex items-center justify-content-center"

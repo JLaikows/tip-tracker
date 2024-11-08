@@ -30,10 +30,30 @@ export async function POST(req: NextRequest) {
 
   const { name, state } = await req.json();
 
+  let unique = false;
+
+  const firstLetters =
+    name.split("")[0].toUpperCase() + name.split("")[1].toUpperCase();
+  let serial: string = "";
+
+  while (!unique) {
+    const numbers: number = Math.floor(1000 + Math.random() * 9000);
+
+    const client = await db.client.findFirst({
+      where: { serial: firstLetters + numbers },
+    });
+
+    if (!client) {
+      unique = true;
+      serial = firstLetters + numbers;
+    }
+  }
+
   const client = await db.client.create({
     data: {
       name,
       state,
+      serial,
       //used as an override for "Or null", as we already check if theres a user ID above
       userId: session?.userId as number,
     },

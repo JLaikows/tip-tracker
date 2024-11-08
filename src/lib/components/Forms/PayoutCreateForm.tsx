@@ -128,7 +128,7 @@ export default function PayoutCreateForm() {
         </div>
         <div className="flex flex-row gap-8">
           <Dropdown
-            name="client"
+            name="clientId"
             options={clients}
             optionLabel="label"
             optionValue="value"

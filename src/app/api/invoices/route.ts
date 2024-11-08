@@ -42,11 +42,40 @@ export async function POST(req: NextRequest) {
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
 
-  const { amount, taxable, payed, due, clientId } = await req.json();
+  const { amount, taxable, payed, due, clientId, createInvoiceNumber } =
+    await req.json();
 
   const parsedDate = new Date(due);
 
-  const invoice = await db.invoice.create({
+  const client = await db.client.findFirst({ where: { id: clientId } });
+
+  if (!client) {
+    cookies().delete(COOKIES.Authorization);
+    return NextResponse.json(
+      { error: "Invalid Client Not Found" },
+      { status: 200 }
+    );
+  }
+
+  let unique = false;
+
+  let number: string;
+
+  const year = new Date(Date.now()).getFullYear();
+
+  while (!unique) {
+    const randomNumbers: number = Math.floor(100000 + Math.random() * 900000);
+
+    number = client.serial + "-" + year + randomNumbers;
+
+    const found = await db.invoice.findFirst({ where: { number } });
+
+    if (!found) {
+      unique = true;
+    }
+  }
+
+  let invoice = await db.invoice.create({
     data: {
       amount,
       taxable,
@@ -58,6 +87,23 @@ export async function POST(req: NextRequest) {
     },
     include: { client: true },
   });
+
+  if (createInvoiceNumber) {
+    const today = new Date(Date.now());
+
+    const number =
+      invoice.client.serial +
+      "-" +
+      today.getFullYear() +
+      invoice.id +
+      Math.floor(1000 + Math.random() * 9000);
+
+    invoice = await db.invoice.update({
+      where: { id: invoice.id },
+      data: { number },
+      include: { client: true },
+    });
+  }
 
   return NextResponse.json(
     { invoice: { ...invoice, clientName: invoice.client.name } },

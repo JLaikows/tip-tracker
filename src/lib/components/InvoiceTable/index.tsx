@@ -1,4 +1,5 @@
 import { TInvoices } from "@/lib/types";
+import { formatCurrency } from "@/lib/utils";
 import { Panel } from "primereact/panel";
 import { FC, useMemo } from "react";
 
@@ -19,12 +20,11 @@ const InvoiceTable: FC<IInvoiceTable> = ({ invoices }) => {
     >
       {parsedInvoices.map((invoice) => (
         <div
-          key={`${invoice.id} - 13`}
+          key={invoice.number || Math.random()}
           className="flex flex-row justify-between"
         >
-          <div>{(invoice.id || "").toString().padStart(4, "0")}</div>
-          <div>{invoice.amount}</div>
-          <div>{invoice.clientName}</div>
+          <div>{invoice.number}</div>
+          <div>{formatCurrency(invoice.amount ?? 0)}</div>
           <div>{new Date(invoice.due || "").toDateString()}</div>
         </div>
       ))}

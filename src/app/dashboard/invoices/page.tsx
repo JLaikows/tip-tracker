@@ -1,6 +1,6 @@
 "use client";
 
-import UnpaidPayoutCreateForm from "@/lib/components/Forms/unpaidPayoutCreateForm";
+import UnpaidPayoutCreateForm from "@/lib/components/Forms/InvoiceCreateForm";
 import InvoiceTable from "@/lib/components/InvoiceTable";
 import { useInvoiceStore } from "@/lib/hooks/invoices";
 import { useCallback, useEffect } from "react";
