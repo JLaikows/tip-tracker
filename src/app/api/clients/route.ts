@@ -3,31 +3,7 @@ import { COOKIES } from "@/lib/types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import _ from "lodash";
-
-export const generateSerial = async (name: string, state: string) => {
-  let unique = false;
-
-  const firstLetters =
-    name.split("")[0].toUpperCase() + name.split("")[1].toUpperCase();
-  let serial: string = "";
-
-  //checks for rows with the same identifier in the DB
-  //if none exist, it breaks the loop, allowing the client to be created
-  while (!unique) {
-    const numbers: number = Math.floor(100 + Math.random() * 900);
-
-    const client = await db.client.findFirst({
-      where: { serial: firstLetters + numbers },
-    });
-
-    if (!client) {
-      unique = true;
-      serial = firstLetters + state + numbers;
-    }
-  }
-
-  return serial;
-};
+import { generateSerial } from "@/lib/utils";
 
 export async function GET() {
   const token = cookies().get(COOKIES.Authorization)?.value;

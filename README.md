@@ -62,3 +62,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Auto generate serials for clients
 - cleanup generate serial
 - use client store in payout create form instead of api call
+- update types for utils

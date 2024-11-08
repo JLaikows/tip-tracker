@@ -2,7 +2,7 @@ import db from "@/lib/primsa";
 import { COOKIES } from "@/lib/types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { generateSerial } from "../route";
+import { generateSerial } from "@/lib/utils";
 
 export async function PATCH(req: NextRequest) {
   const token = cookies().get(COOKIES.Authorization)?.value;
