@@ -1,19 +1,20 @@
 import { create } from "zustand";
 import axios from "axios";
-import { TClient } from "../types";
+import { TClient, TClientList } from "../types";
 
 export interface IClientState {
-  clients: TClient[];
+  clients: TClientList;
   getClients: () => Promise<void | string>;
   addClient: (client: TClient) => void;
 }
 
 export const useClientStore = create<IClientState>()((set) => ({
-  clients: [],
+  clients: {},
   getClients: async () => {
     const res = await axios.get(`/api/clients`);
     if (res.data.error) return res.data.error;
-    if (!res.data.clients.length) return "Create a client to continue!!";
+    if (!Object.values(res.data.clients).length)
+      return "Create a client to continue!!";
 
     set((state: IClientState) => {
       return {
@@ -24,9 +25,9 @@ export const useClientStore = create<IClientState>()((set) => ({
   },
   addClient: (client: TClient) =>
     set((state: IClientState) => {
-      const updatedClients: TClient[] = [...state.clients];
+      const updatedClients: TClientList = { ...state.clients };
 
-      updatedClients.push(client);
+      updatedClients[client.id] = client;
 
       return { ...state, clients: updatedClients };
     }),

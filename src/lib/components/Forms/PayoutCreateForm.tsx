@@ -10,7 +10,7 @@ import { Panel } from "primereact/panel";
 import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
-import { TClient } from "../../types";
+import { TClient, TCLientGetResponse } from "../../types";
 import { TDropdownOptions } from "../../types";
 import { usePayoutStore } from "../../hooks/payouts";
 
@@ -77,9 +77,9 @@ export default function PayoutCreateForm() {
 
   useEffect(() => {
     const getClientList = async () => {
-      const { data } = await axios.get("/api/clients");
+      const { data }: TCLientGetResponse = await axios.get("/api/clients");
 
-      const newClients: TDropdownOptions = data.clients.map(
+      const newClients: TDropdownOptions = Object.values(data.clients).map(
         (client: TClient) => ({
           label: client.name,
           value: client.id,

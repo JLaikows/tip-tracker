@@ -9,7 +9,7 @@ import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
 import { Panel } from "primereact/panel";
 import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { TClient } from "../../types";
+import { TClient, TCLientGetResponse } from "../../types";
 import { TDropdownOptions } from "../../types";
 import { useInvoiceStore } from "@/lib/hooks/invoices";
 
@@ -76,9 +76,9 @@ export default function UnpaidPayoutCreateForm() {
 
   useEffect(() => {
     const getClientList = async () => {
-      const { data } = await axios.get("/api/clients");
+      const { data }: TCLientGetResponse = await axios.get("/api/clients");
 
-      const newClients: TDropdownOptions = data.clients.map(
+      const newClients: TDropdownOptions = Object.values(data.clients).map(
         (client: TClient) => ({
           label: client.name,
           value: client.id,

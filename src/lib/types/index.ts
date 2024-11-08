@@ -16,6 +16,10 @@ export type TPayouts = Record<string, TPayoutsWeek>;
 
 export type TInvoices = Record<string, TParsedInvoice>;
 
+export type TClientList = Record<string, TClient>;
+
+export type TCLientGetResponse = { data: { clients: TClientList } };
+
 export type TParsedInvoice = Partial<TInvoice> & { clientName: string | null };
 
 export type TDropdownOption = {

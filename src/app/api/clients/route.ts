@@ -2,6 +2,7 @@ import db from "@/lib/primsa";
 import { COOKIES } from "@/lib/types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import _ from "lodash";
 
 export const generateSerial = async (name: string, state: string) => {
   let unique = false;
@@ -41,7 +42,10 @@ export async function GET() {
     where: { userId: session?.userId },
   });
 
-  return NextResponse.json({ clients }, { status: 200 });
+  return NextResponse.json(
+    { clients: _.keyBy(clients, "id") },
+    { status: 200 }
+  );
 }
 
 export async function POST(req: NextRequest) {
