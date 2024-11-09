@@ -7,21 +7,21 @@ import db from "../primsa";
 
 const endLogo = (
   <div className="flex flex-row">
-    <div>Tip Tracker &nbsp;</div>
+    <div>Admin &nbsp;</div>
     <Image aria-hidden src={logo} alt="File icon" width={24} height={24} />
   </div>
 );
 
-const signedOutOptions = [
-  {
-    label: "Login",
-    url: "/login",
-  },
-  {
-    label: "Sign Up",
-    url: "/signup",
-  },
-];
+// const signedOutOptions = [
+//   {
+//     label: "Login",
+//     url: "/login",
+//   },
+//   {
+//     label: "Sign Up",
+//     url: "/signup",
+//   },
+// ];
 
 const loggedInOptions = [
   {
@@ -47,7 +47,7 @@ export default async function NavBar() {
     session = await db.session.findFirst({ where: { token } });
   }
 
-  const menuOptions = !!session?.id ? loggedInOptions : signedOutOptions;
+  if (!session?.id) return null;
 
-  return <Menubar model={menuOptions} end={endLogo} />;
+  return <Menubar model={loggedInOptions} end={endLogo} />;
 }

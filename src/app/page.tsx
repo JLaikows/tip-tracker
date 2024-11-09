@@ -1,13 +1,15 @@
-import { Card } from "primereact/card";
+import db from "@/lib/primsa";
+import { COOKIES } from "@/lib/types";
+import { cookies } from "next/headers";
+import { redirect, RedirectType } from "next/navigation";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Card>
-          <h1>Track Your Tips</h1>
-        </Card>
-      </main>
-    </div>
-  );
+export default async function Home() {
+  const token = cookies().get(COOKIES.Authorization)?.value;
+  const session = await db.session.findFirst({ where: { token } });
+
+  if (session) {
+    redirect("/dashboard", RedirectType.push);
+  } else {
+    redirect("/login", RedirectType.push);
+  }
 }
