@@ -1,7 +1,14 @@
 import db from "./primsa";
 import { TGenerateToken, TGetWeekLabel, TGetWeekStartDate } from "./types";
+import { TGenerateSerial } from "./types/utils";
 
-export const generateSerial = async (name: string, state: string) => {
+/**
+ * Takes in the name and state of a client and returns a serialized version for a unique identifier
+ * @param name string
+ * @param state string
+ * @returns string
+ */
+export const generateSerial: TGenerateSerial = async (name, state) => {
   let unique = false;
 
   const firstLetters =
