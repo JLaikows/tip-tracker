@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { COOKIES } from "@/lib/types";
 import db from "@/lib/primsa";
 import { redirect, RedirectType } from "next/navigation";
@@ -19,12 +19,20 @@ export default async function DashboardLayout({
   const token = cookies().get(COOKIES.Authorization)?.value;
   const session = await db.session.findFirst({ where: { token } });
 
+  const headersList = await headers();
+  const domain = headersList.get("host") || "";
+  const path = (headersList.get("referer") || "").split(domain)[1];
+
+  console.log(path);
+
+  const index = items.findIndex((item) => item.url === path);
+
   if (!session?.userId) {
     redirect("/login", RedirectType.push);
   }
   return (
     <>
-      <TabMenu model={items} />
+      <TabMenu model={items} activeIndex={index} />
       {children}
     </>
   );
