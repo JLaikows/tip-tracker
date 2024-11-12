@@ -65,3 +65,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - update types for utils
 - convert to mui
 - Organize invoices by date order
+- remove weeks from payout store
+- clean up stores
