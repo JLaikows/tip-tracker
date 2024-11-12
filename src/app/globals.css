@@ -4,6 +4,7 @@
 
 @import "~react-toastify/dist/ReactToastify.min.css";
 @import "primereact/resources/themes/md-dark-deeppurple/theme.css";
+@import "primeicons/primeicons.css";
 
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */

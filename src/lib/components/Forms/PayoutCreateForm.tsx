@@ -6,8 +6,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
-import { Panel } from "primereact/panel";
-import { FormEventHandler, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { states } from "@/lib/local";
 import { TClient, TCLientGetResponse } from "../../types";
@@ -24,7 +23,11 @@ const defaultPayout = {
   clientId: 0,
 };
 
-export default function PayoutCreateForm() {
+interface IPayoutCreateForm {
+  close?: () => void;
+}
+
+const PayoutCreateForm: FC<IPayoutCreateForm> = ({ close }) => {
   const { addPayout } = usePayoutStore.getState();
   const [formData, setFormData] = useState(defaultPayout);
   const [clients, setClients] = useState<TDropdownOptions>([]);
@@ -48,7 +51,14 @@ export default function PayoutCreateForm() {
     return false;
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleCancel = (e: any) => {
+    e.preventDefault();
+    if (close) close();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (validateFormDate()) return;
 
@@ -64,6 +74,9 @@ export default function PayoutCreateForm() {
     }
 
     setIsSubmitting(false);
+    if (close) {
+      close();
+    }
   };
 
   const setData = useCallback(
@@ -98,70 +111,80 @@ export default function PayoutCreateForm() {
   }, [setData]);
 
   return (
-    <Panel
-      header="Add Payout"
-      className="b-2 min-h-96 w-11/12 border-2 rounded-md"
-    >
-      <form
-        className="flex flex-col justify-items-left p-0 gap-8 w-11/12"
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="date"
-          name="date"
+    <form className="flex flex-col justify-items-left p-0 gap-8 w-full">
+      <input
+        type="date"
+        name="date"
+        onChange={handleOriginalChange}
+        value={formData.date}
+      />
+      <div className="flex flex-row gap-8 w-full">
+        <FloatLabel>
+          <label>Cash</label>
+          <InputNumber
+            className="w-full"
+            name="amount"
+            value={formData.amount}
+            size={9}
+            onChange={handleChange("amount")}
+            minFractionDigits={0}
+            maxFractionDigits={2}
+            variant="filled"
+          />
+        </FloatLabel>
+      </div>
+      <div className="flex flex-row gap-8">
+        <Dropdown
+          name="clientId"
+          options={clients}
+          optionLabel="label"
+          optionValue="value"
+          value={formData.clientId}
           onChange={handleOriginalChange}
-          value={formData.date}
         />
-        <div className="flex flex-row gap-8">
-          <FloatLabel>
-            <label>Cash</label>
-            <InputNumber
-              name="amount"
-              value={formData.amount}
-              size={9}
-              onChange={handleChange("amount")}
-              minFractionDigits={0}
-              maxFractionDigits={2}
-              variant="filled"
-            />
-          </FloatLabel>
-        </div>
-        <div className="flex flex-row gap-8">
-          <Dropdown
-            name="clientId"
-            options={clients}
-            optionLabel="label"
-            optionValue="value"
-            value={formData.clientId}
-            onChange={handleOriginalChange}
-          />
-          <Dropdown
-            name="state"
-            options={states}
-            value={formData.state}
-            onChange={handleOriginalChange}
-          />
-        </div>
-        <div>
-          <Checkbox
-            checked={formData.taxable}
-            value={formData.taxable}
-            onChange={() =>
-              setFormData({ ...formData, taxable: !formData.taxable })
-            }
-            name="taxable"
-          />
-          <label>Taxable</label>
-        </div>
+        <Dropdown
+          name="state"
+          options={states}
+          value={formData.state}
+          onChange={handleOriginalChange}
+        />
+      </div>
+      <div>
+        <Checkbox
+          checked={formData.taxable}
+          value={formData.taxable}
+          onChange={() =>
+            setFormData({ ...formData, taxable: !formData.taxable })
+          }
+          name="taxable"
+        />
+        <label className="pl-4 pt-4">Taxable</label>
+      </div>
+      <div className="flex flex-row justify-between w-full">
         <Button
-          className="p-button p-2 flex items-center justify-content-center"
-          severity="info"
+          className="p-button p-2 w-11/12 mt-4 text-center"
+          style={{ backgroundColor: "purple" }}
+          size="large"
+          severity="secondary"
+          label="Submit"
           raised
           disabled={isSubmitting}
-        >
-          Submit
-        </Button>
-      </form>
-    </Panel>
+          onClick={handleSubmit}
+        />
+        {close && (
+          <Button
+            className="p-button p-2 w-11/12 mt-4"
+            size="large"
+            severity="secondary"
+            raised
+            onClick={handleCancel}
+            label="cancel"
+            disabled={isSubmitting}
+          />
+        )}
+      </div>
+    </form>
   );
-}
+};
+
+export default PayoutCreateForm;

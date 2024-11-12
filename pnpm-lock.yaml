@@ -23,6 +23,9 @@ dependencies:
   next:
     specifier: 14.2.10
     version: 14.2.10(react-dom@18.3.1)(react@18.3.1)
+  primeicons:
+    specifier: ^7.0.0
+    version: 7.0.0
   primereact:
     specifier: ^10.8.2
     version: 10.8.2(@types/react@18.3.5)(react-dom@18.3.1)(react@18.3.1)
@@ -2708,6 +2711,10 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
     dev: true
+
+  /primeicons@7.0.0:
+    resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
+    dev: false
 
   /primereact@10.8.2(@types/react@18.3.5)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-bf7vktogGh0PmKT9WLDcJQoQNqqFqcAlP2crUqccnlTu63FNnQV82qEYyaFvE12Qd5qhm3EYmpsHjpf6/+olTQ==}

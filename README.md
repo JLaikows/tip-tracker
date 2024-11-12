@@ -67,3 +67,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Organize invoices by date order
 - remove weeks from payout store
 - clean up stores
+- update tabmenu to use client instead of server
