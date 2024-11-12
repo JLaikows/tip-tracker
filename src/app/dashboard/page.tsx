@@ -1,9 +1,13 @@
 import { ServerSideToast } from "@/lib/components/ServerSideToast";
 import StyledCard from "@/lib/components/StyledCard";
 import db from "@/lib/primsa";
+import { COOKIES } from "@/lib/types";
 import { formatCurrency, getWeekLabel } from "@/lib/utils";
+import { cookies } from "next/headers";
 
 export default async function Home() {
+  const token = cookies().get(COOKIES.Authorization)?.value;
+  const session = await db.session.findFirst({ where: { token } });
   const today: Date = new Date(Date.now());
   const thisWeek: string = getWeekLabel(today);
 
@@ -12,6 +16,7 @@ export default async function Home() {
   //gets the yearly amount from the DB
   const yearlyAmount = await db.payout.aggregate({
     where: {
+      id: session?.userId,
       date: {
         gte: new Date("01/01/2024"),
       },
@@ -27,6 +32,7 @@ export default async function Home() {
 
   const upcomingInvoices = await db.invoice.findMany({
     where: {
+      id: session?.userId,
       due: { gte: today, lte: maxDate },
     },
   });
@@ -38,6 +44,7 @@ export default async function Home() {
   //gets the weekly amount from the db
   const weeklyAmount = await db.payout.aggregate({
     where: {
+      id: session?.userId,
       date: {
         gte: new Date(thisWeek + `/${today.getFullYear()}`),
       },
