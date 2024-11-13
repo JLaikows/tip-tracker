@@ -34,8 +34,6 @@ export default function Home() {
     getClientsCall();
   }, [getClientsCall]);
 
-  console.table(state.clients);
-
   return (
     <div className="flex items-center justify-items-center font-[family-name:var(--font-geist-sans)] p-4 ">
       <main className="flex flex-col gap-8 row-start-2 items-center w-screen min-h-80 sm:items-start md:flex-row">
@@ -47,7 +45,7 @@ export default function Home() {
           {!Object.values(state.clients).length && <>No Clients To Show</>}
           {Object.values(state.clients).map((client) => (
             <div
-              key={`${client.name}-client`}
+              key={`${client.serial}-client`}
               className="flex flex-row justify-between border-gray-600 pb-4"
             >
               {client.serial ? (
