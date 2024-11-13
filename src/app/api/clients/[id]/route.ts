@@ -15,8 +15,6 @@ export async function PATCH(req: NextRequest) {
 
   const id = Number(req.url.split("/")[5]);
 
-  console.log(id);
-
   const { name, state, generateSerialCode } = await req.json();
 
   const client = await db.client.findFirst({ where: { id } });

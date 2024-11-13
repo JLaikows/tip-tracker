@@ -48,6 +48,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - <s>Add password for logging in and out</s>
 - <s>update payout lists to be sent as an object with keys instead of an array</s>
 - <s>Removed Owed from payout</s>
+- <s>update types for utils</s>
+- <s>Auto generate serials for clients</s>
+- <s>remove weeks from payout store</s>
 - Create middleware for api for sessions
 - Move "add" api calls from components into store hooks
 - Add loading animation to all components using async calls
@@ -59,12 +62,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - add full info to user
 - update sessions to use redis instead of postgres
 - update styling for better desktop experience
-- Auto generate serials for clients
 - cleanup generate serial
 - use client store in payout create form instead of api call
-- update types for utils
 - convert to mui
 - Organize invoices by date order
-- remove weeks from payout store
 - clean up stores
 - update tabmenu to use client instead of server

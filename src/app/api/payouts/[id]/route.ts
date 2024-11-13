@@ -14,8 +14,6 @@ export async function DELETE(req: NextRequest) {
 
   const id = Number(req.url.split("/")[5]);
 
-  console.log(id);
-
   const payout = await db.payout.delete({ where: { id } });
 
   return NextResponse.json(

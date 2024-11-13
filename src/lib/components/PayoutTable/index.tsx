@@ -10,10 +10,7 @@ interface IPayoutTable {
 const PayoutTable: FC<IPayoutTable> = ({ payouts }) => {
   const weeks = useMemo(() => Object.keys(payouts), [payouts]);
   return (
-    <Panel
-      header="Payouts"
-      className="w-11/12 border-2 rounded-md max-w-[91.666667%]"
-    >
+    <Panel className="w-11/12 border-2 rounded-md max-w-[91.666667%]">
       {weeks.map((week) => (
         <PayoutTableWeek
           label={week}

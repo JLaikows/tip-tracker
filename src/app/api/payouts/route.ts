@@ -12,19 +12,19 @@ export async function GET() {
     cookies().delete(COOKIES.Authorization);
     NextResponse.json({ error: "Session Not Found" }, { status: 200 });
   }
+  const today = new Date(Date.now());
   const payouts = await db.payout.findMany({
-    where: { userId: session?.userId },
+    where: {
+      userId: session?.userId,
+      date: { gte: new Date(`01/01/${today.getFullYear()}`) },
+    },
     include: { client: true },
   });
 
   const parsedPayouts: TPayouts = {};
 
-  const today = new Date(Date.now());
-
   payouts.forEach((payout) => {
     const date = new Date(payout.date);
-
-    if (today.getFullYear() != date.getFullYear()) return;
 
     //getWeekLabel is a temp fallback until old db entries are updated
     const weekLabel: keyof TPayouts = payout.weekLabel || getWeekLabel(date);

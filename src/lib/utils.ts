@@ -3,7 +3,8 @@ import { TGenerateToken, TGetWeekLabel, TGetWeekStartDate } from "./types";
 import { TGenerateSerial } from "./types/utils";
 
 /**
- * Takes in the name and state of a client and returns a serialized version for a unique identifier
+ * Takes in the name and state of a client and returns a serialized version for a unique identifier.
+ * **Warning:** Calls DB to check uniqueness
  * @param name string
  * @param state string
  * @returns string
@@ -25,6 +26,7 @@ export const generateSerial: TGenerateSerial = async (name, state) => {
     });
 
     if (!client) {
+      //sets unique to true and serial to the generated string if no client is found,
       unique = true;
       serial = firstLetters + state + numbers;
     }
