@@ -1,14 +1,14 @@
 import { TPayouts } from "@/lib/types";
 import { Panel } from "primereact/panel";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import PayoutTableWeek from "./PayoutTableWeek";
 
 interface IPayoutTable {
   payouts: TPayouts;
-  weeks: (keyof TPayouts)[];
 }
 
-const PayoutTable: FC<IPayoutTable> = ({ payouts, weeks }) => {
+const PayoutTable: FC<IPayoutTable> = ({ payouts }) => {
+  const weeks = useMemo(() => Object.keys(payouts), [payouts]);
   return (
     <Panel
       header="Payouts"

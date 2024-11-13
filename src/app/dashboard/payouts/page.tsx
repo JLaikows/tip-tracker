@@ -39,7 +39,7 @@ export default function Home() {
           iconPos="bottom"
         />
 
-        <PayoutTable payouts={state.payouts} weeks={state.weeks} />
+        <PayoutTable payouts={state.payouts} />
         <Dialog
           header="Create Payout"
           visible={isOpen}

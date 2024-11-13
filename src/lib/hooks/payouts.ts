@@ -4,9 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 
 export interface IPayoutState {
-  weekTotalEarned: number;
   payouts: TPayouts;
-  weeks: (keyof TPayouts)[];
   addPayout: (payout: TPayout) => void;
   setPayouts: (payouts: TPayouts) => void;
   getPayouts: () => Promise<void | string>;
@@ -14,9 +12,7 @@ export interface IPayoutState {
 }
 
 export const usePayoutStore = create<IPayoutState>()((set) => ({
-  weekTotalEarned: 0,
   payouts: {},
-  weeks: [],
   addPayout: (payout: TPayout) =>
     set((state: IPayoutState) => {
       const newState = _.cloneDeep(state);
@@ -27,7 +23,6 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
           payouts: {},
           earned: 0,
         };
-        newState.weeks.push(weekLabel);
       }
 
       newState.payouts[weekLabel].payouts[payout.id] = payout;
@@ -57,18 +52,11 @@ export const usePayoutStore = create<IPayoutState>()((set) => ({
   deletePayout: (id, week) =>
     set((state: IPayoutState) => {
       const newState = _.cloneDeep(state);
-      console.log(newState);
-      console.log(newState.payouts[week].payouts[id]);
       delete newState.payouts[week].payouts[id];
 
       if (!Object.values(newState.payouts[week].payouts).length) {
         delete newState.payouts[week];
-
-        const index = newState.weeks.findIndex((ele) => ele === week);
-        delete newState.weeks[index];
       }
-
-      console.log(newState);
 
       return newState;
     }),
