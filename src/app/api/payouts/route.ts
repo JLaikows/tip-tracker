@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
       //used as an override for "Or null", as we already check if theres a user ID above
       userId: session?.userId as number,
     },
+    include: { client: true },
   });
 
   return NextResponse.json({ payout }, { status: 200 });
