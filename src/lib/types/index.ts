@@ -42,6 +42,10 @@ export type TAuthNextRequest = NextRequest & {
   session: (TSession & { user: TUser }) | null;
 };
 
+export interface ICreateForm {
+  close?: () => void;
+}
+
 // Adding types for more consistent naming convention
 
 export type TUser = user;

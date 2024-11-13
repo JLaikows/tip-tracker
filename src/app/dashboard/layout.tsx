@@ -3,6 +3,7 @@ import { COOKIES } from "@/lib/types";
 import db from "@/lib/primsa";
 import { redirect, RedirectType } from "next/navigation";
 import { TabMenu } from "@/lib/components/TabMenu";
+import NavBar from "@/lib/components/NavBar";
 
 export default async function DashboardLayout({
   children,
@@ -17,6 +18,7 @@ export default async function DashboardLayout({
   }
   return (
     <>
+      <NavBar />
       <TabMenu />
       {children}
     </>

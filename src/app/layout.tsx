@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import { PrimeReactProvider } from "primereact/api";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
-import NavBar from "@/lib/components/NavBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,10 +30,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <PrimeReactProvider>
-          <NavBar />
-          {children}
-        </PrimeReactProvider>
+        <PrimeReactProvider>{children}</PrimeReactProvider>
         <ToastContainer />
       </body>
     </html>

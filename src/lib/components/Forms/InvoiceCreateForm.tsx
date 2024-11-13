@@ -6,10 +6,9 @@ import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber, InputNumberChangeEvent } from "primereact/inputnumber";
-import { Panel } from "primereact/panel";
-import { FormEventHandler, useCallback, useEffect, useState } from "react";
+import { FC, MouseEventHandler, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { TClient, TCLientGetResponse } from "../../types";
+import { ICreateForm, TClient, TCLientGetResponse } from "../../types";
 import { TDropdownOptions } from "../../types";
 import { useInvoiceStore } from "@/lib/hooks/invoices";
 
@@ -23,7 +22,7 @@ const defaultUnpaidPayout = {
   createInvoiceNumber: true,
 };
 
-export default function UnpaidPayoutCreateForm() {
+const UnpaidPayoutCreateForm: FC<ICreateForm> = ({ close }) => {
   const { addInvoice } = useInvoiceStore.getState();
   const [formData, setFormData] = useState(defaultUnpaidPayout);
   const [clients, setClients] = useState<TDropdownOptions>([]);
@@ -47,7 +46,11 @@ export default function UnpaidPayoutCreateForm() {
     return false;
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+  };
+
+  const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     if (validateFormDate()) return;
 
@@ -62,6 +65,9 @@ export default function UnpaidPayoutCreateForm() {
       setFormData({ ...defaultUnpaidPayout, clientId: formData.clientId });
     }
 
+    if (close) {
+      close();
+    }
     setIsSubmitting(false);
   };
 
@@ -97,79 +103,88 @@ export default function UnpaidPayoutCreateForm() {
   }, [setData]);
 
   return (
-    <Panel
-      header="Add Invoice"
-      className="b-2 min-h-96 w-11/12 border-2 rounded-md"
-    >
-      <form
-        className="flex flex-col justify-items-left p-0 gap-8 w-11/12"
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="date"
-          name="due"
+    <form className="flex flex-col justify-items-left p-0 gap-8">
+      <input
+        type="date"
+        name="due"
+        onChange={handleOriginalChange}
+        value={formData.due}
+      />
+      <div className="flex flex-row gap-8">
+        <FloatLabel>
+          <label>Cash</label>
+          <InputNumber
+            name="amount"
+            value={formData.amount}
+            size={9}
+            onChange={handleChange("amount")}
+            minFractionDigits={0}
+            maxFractionDigits={2}
+            tooltip="Amount of Cash taken home"
+            variant="filled"
+          />
+        </FloatLabel>
+      </div>
+      <div className="flex flex-row gap-8">
+        <Dropdown
+          name="clientId"
+          options={clients}
+          optionLabel="label"
+          optionValue="value"
+          value={formData.clientId}
           onChange={handleOriginalChange}
-          value={formData.due}
         />
-        <div className="flex flex-row gap-8">
-          <FloatLabel>
-            <label>Cash</label>
-            <InputNumber
-              name="amount"
-              value={formData.amount}
-              size={9}
-              onChange={handleChange("amount")}
-              minFractionDigits={0}
-              maxFractionDigits={2}
-              tooltip="Amount of Cash taken home"
-              variant="filled"
-            />
-          </FloatLabel>
-        </div>
-        <div className="flex flex-row gap-8">
-          <Dropdown
-            name="clientId"
-            options={clients}
-            optionLabel="label"
-            optionValue="value"
-            value={formData.clientId}
-            onChange={handleOriginalChange}
-          />
-        </div>
-        <div>
-          <Checkbox
-            checked={formData.taxable}
-            value={formData.taxable}
-            onChange={() =>
-              setFormData({ ...formData, taxable: !formData.taxable })
-            }
-            name="taxable"
-          />
-          <label>Taxable</label>
-        </div>
-        <div>
-          <Checkbox
-            checked={formData.createInvoiceNumber}
-            value={formData.createInvoiceNumber}
-            onChange={() =>
-              setFormData({
-                ...formData,
-                createInvoiceNumber: !formData.createInvoiceNumber,
-              })
-            }
-            name="createInvoiceNumber"
-          />
-          <label>Create Invoice Number</label>
-        </div>
+      </div>
+      <div>
+        <Checkbox
+          checked={formData.taxable}
+          value={formData.taxable}
+          onChange={() =>
+            setFormData({ ...formData, taxable: !formData.taxable })
+          }
+          name="taxable"
+        />
+        <label>Taxable</label>
+      </div>
+      <div>
+        <Checkbox
+          checked={formData.createInvoiceNumber}
+          value={formData.createInvoiceNumber}
+          onChange={() =>
+            setFormData({
+              ...formData,
+              createInvoiceNumber: !formData.createInvoiceNumber,
+            })
+          }
+          name="createInvoiceNumber"
+        />
+        <label className="pl-2 pt-4">Create Invoice Number</label>
+      </div>
+      <div className="flex flex-row justify-between w-full">
         <Button
-          className="p-button p-2 flex items-center justify-content-center"
-          severity="info"
+          className="p-button p-2 w-11/12 mt-4 text-center"
+          style={{ backgroundColor: "purple" }}
+          size="large"
+          severity="secondary"
+          label="Submit"
           raised
           disabled={isSubmitting}
-        >
-          Submit
-        </Button>
-      </form>
-    </Panel>
+          onClick={handleSubmit}
+        />
+        {close && (
+          <Button
+            className="p-button p-2 w-11/12 mt-4"
+            size="large"
+            severity="secondary"
+            raised
+            onClick={handleCancel}
+            label="cancel"
+            disabled={isSubmitting}
+          />
+        )}
+      </div>
+    </form>
   );
-}
+};
+
+export default UnpaidPayoutCreateForm;

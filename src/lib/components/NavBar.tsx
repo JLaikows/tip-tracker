@@ -1,9 +1,6 @@
 import { Menubar } from "primereact/menubar";
 import logo from "@/images/just logo transparent.png";
 import Image from "next/image";
-import { cookies } from "next/headers";
-import { COOKIES } from "../types";
-import db from "../primsa";
 
 const endLogo = (
   <div className="flex flex-row">
@@ -11,17 +8,6 @@ const endLogo = (
     <Image aria-hidden src={logo} alt="File icon" width={24} height={24} />
   </div>
 );
-
-// const signedOutOptions = [
-//   {
-//     label: "Login",
-//     url: "/login",
-//   },
-//   {
-//     label: "Sign Up",
-//     url: "/signup",
-//   },
-// ];
 
 const loggedInOptions = [
   {
@@ -39,15 +25,5 @@ const loggedInOptions = [
 ];
 
 export default async function NavBar() {
-  const token = cookies().get(COOKIES.Authorization)?.value;
-
-  let session = undefined;
-
-  if (token) {
-    session = await db.session.findFirst({ where: { token } });
-  }
-
-  if (!session?.id) return null;
-
   return <Menubar model={loggedInOptions} end={endLogo} />;
 }
